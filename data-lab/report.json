@@ -1,13 +1,31 @@
 {
-  "report_date": "2026-07-02",
+  "report_date": "2026-07-04",
   "risk_level": "high",
-  "total_revenue": 128400,
-  "anomaly_count": 5,
-  "top_product": "耳掛咖啡",
+  "total_revenue": 5260,
+  "anomaly_count": 4,
+  "top_product": "香氛蠟燭",
   "top_channel": "LINE",
   "action_items": [
-    "先人工確認第 8 列與第 17 列營收資料。",
-    "暫停把異常列納入週報。",
-    "請營運負責人在送出通知前確認是否需要同步客服。"
+    "補貨 香氛蠟燭: 目前庫存 0, 安全量 5, 請 Cara 先確認採購與到貨日。",
+    "補貨 海鹽焦糖餅乾: 目前庫存 4, 安全量 10, 請 Ben 先確認採購與到貨日。",
+    "補貨 冷泡茶包: 目前庫存 9, 安全量 12, 請 Ada 先確認採購與到貨日。",
+    "送出 LINE Flex 通知前，請主管人工確認補貨數量與收件對象。"
+  ],
+  "notification_theme": "low_stock_replenishment",
+  "agent_trace": [
+    {
+      "role": "data_checker",
+      "summary": [
+        "inventory CSV readable; required columns present"
+      ]
+    },
+    {
+      "role": "ops_decider",
+      "summary": "risk_level=high; anomalies=4"
+    },
+    {
+      "role": "push_writer",
+      "summary": "action_items=4"
+    }
   ]
 }
