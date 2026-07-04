@@ -1,0 +1,9 @@
+{
+  "to": "U32d9851bb27e42292f1621a5e6f3e722",
+  "messages": [
+    {
+      "type": "text",
+      "text": "[營運異常通知]\n風險等級: high\n總營收: NT$128,400\n異常筆數: 5\nTop product: 耳掛咖啡\nTop channel: LINE\nAction items:\n1. 先人工確認第 8 列與第 17 列營收資料。\n2. 暫停把異常列納入週報。\n3. 請營運負責人在送出通知前確認是否需要同步客服。\n\nHuman review required before --confirm."
+    }
+  ]
+}

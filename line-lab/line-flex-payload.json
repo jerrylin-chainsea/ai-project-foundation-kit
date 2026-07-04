@@ -1,0 +1,170 @@
+{
+  "to": "Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "messages": [
+    {
+      "type": "flex",
+      "altText": "營運異常通知",
+      "contents": {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "營運異常通知",
+              "weight": "bold",
+              "size": "lg",
+              "wrap": true
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "risk_level",
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "high",
+                  "color": "#111111",
+                  "size": "sm",
+                  "flex": 4,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "total_revenue",
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "NT$128,400",
+                  "color": "#111111",
+                  "size": "sm",
+                  "flex": 4,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "anomaly_count",
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "5",
+                  "color": "#111111",
+                  "size": "sm",
+                  "flex": 4,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "top_product",
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "耳掛咖啡",
+                  "color": "#111111",
+                  "size": "sm",
+                  "flex": 4,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "top_channel",
+                  "color": "#666666",
+                  "size": "sm",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "LINE",
+                  "color": "#111111",
+                  "size": "sm",
+                  "flex": 4,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "type": "text",
+              "text": "action_items",
+              "weight": "bold",
+              "size": "sm",
+              "color": "#666666"
+            },
+            {
+              "type": "text",
+              "text": "1. 先人工確認第 8 列與第 17 列營收資料。",
+              "size": "sm",
+              "color": "#111111",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "2. 暫停把異常列納入週報。",
+              "size": "sm",
+              "color": "#111111",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "3. 請營運負責人在送出通知前確認是否需要同步客服。",
+              "size": "sm",
+              "color": "#111111",
+              "wrap": true
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

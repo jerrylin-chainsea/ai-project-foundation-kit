@@ -1,0 +1,11 @@
+{
+  "order_id": "SO-20260704-018",
+  "customer": "海風選物・王小美",
+  "channel": "LINE",
+  "status": "待出貨",
+  "amount": 2380,
+  "items": [
+    { "name": "耳掛咖啡 x12", "qty": 2, "price": 720 },
+    { "name": "海鹽餅乾", "qty": 1, "price": 940 }
+  ]
+}

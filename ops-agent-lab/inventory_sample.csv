@@ -1,0 +1,7 @@
+sku,product,stock,reorder_point,unit_price,owner,channel
+SKU-101,耳掛咖啡,18,12,420,Ada,LINE
+SKU-102,海鹽焦糖餅乾,4,10,180,Ben,LINE
+SKU-103,香氛蠟燭,0,5,680,Cara,LINE
+SKU-104,帆布托特包,7,7,520,Dino,Shop
+SKU-105,手作明信片組,35,15,120,Eli,Shop
+SKU-106,冷泡茶包,9,12,260,Ada,LINE
