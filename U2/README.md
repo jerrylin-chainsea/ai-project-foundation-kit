@@ -9,6 +9,12 @@
 
 用 `AGENTS.md`、`CLAUDE.md`、Plan Mode 和 reviewer，把一個倉儲後台需求拆成資料、規則、畫面、測試與驗收，最後完成 `getPendingLineOrders(orderItems)` 這個挖洞任務。
 
+## 先講清楚：什麼是 vibe coding
+
+Vibe coding 指的是：你用自然語言描述需求，讓 AI coding agent 幫你讀專案、改檔案、跑指令、回報結果。
+
+它很快，但如果沒有規則，很容易變成「AI 覺得可以」而不是「工程上可交付」。所以 C2 不是要學生學會多貼幾句 prompt，而是把 vibe coding 加上工程控制：先看專案、先讀守則、先出計畫、人審後再開發，最後用測試、畫面、diff、build 驗收。
+
 ## 學生會學到什麼
 
 - 受控 vibe coding：不是叫 AI 隨便做，而是用規則、計畫、diff、build 控制每一輪修改。
@@ -17,7 +23,7 @@
 - Plan Mode：先讀檔、先提出計畫，未經人審不改檔。
 - 需求拆解：把一句話需求拆成資料欄位、業務規則、畫面位置、驗收方式。
 - 測試與驗證：用測試腳本、畫面檢查、`git diff`、`npm run build` 證明改動真的成立。
-- 部署概念：理解 source code、build、`dist/`、preview、public deploy 的差別；C2 不做完整 DevOps。
+- 部署概念：理解 source code、build、`dist/`、preview、public deploy 的差別；C2 不做完整部署自動化。
 
 ## 4 小時節奏
 

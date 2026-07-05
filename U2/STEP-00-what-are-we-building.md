@@ -78,7 +78,7 @@ C2 不做這些：
 - 不真的串 LINE API
 - 不放 token
 - 不碰 webhook
-- 不做完整 DevOps
+- 不做完整部署自動化或 CI/CD
 - 不把部署平台設定完
 - 不讓 AI 重寫整個後台
 

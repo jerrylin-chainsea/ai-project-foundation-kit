@@ -30,7 +30,7 @@ C2 要教的是：
 
 ## 這堂不要教什麼
 
-- 不教完整 DevOps
+- 不教完整部署自動化或 CI/CD
 - 不教 GitHub Actions 設定
 - 不教正式 GitHub Pages 部署
 - 不教 LINE API 真送
@@ -155,7 +155,7 @@ export function getPendingLineOrders(orderItems) {
 
 ### 3:30-3:50｜部署概念
 
-不要展開 DevOps，只講 mental model。
+不要展開 CI/CD 或 GitHub Actions，只講 mental model。
 
 ```text
 開發模式：npm run dev
