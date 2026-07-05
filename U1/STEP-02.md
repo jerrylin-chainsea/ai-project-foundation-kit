@@ -9,6 +9,8 @@ git status
 git switch -c feature/u1-first-edit
 ```
 
+如果 `git status` 顯示 `fatal: not a git repository`，請先回 [`STEP-00-zip-to-git.md`](./STEP-00-zip-to-git.md) 做 `git init` 和 initial commit。
+
 如果 `git switch -c` 失敗，通常代表你已經在同名分支；舉手或改用老師指定的新分支名。
 
 ## 2. 改一個看得見的字
@@ -52,3 +54,5 @@ git status
 - diff：只動 `web-lab/src/data.js`
 - commit：有一筆 commit，`git status` 乾淨
 - human review：你親眼看過畫面與 diff，不是只相信 AI 說完成
+
+→ 下一步：打開 [`STEP-03-gitflow.md`](./STEP-03-gitflow.md)，把剛剛做的動作整理成 Git flow。

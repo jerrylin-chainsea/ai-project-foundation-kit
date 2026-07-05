@@ -20,7 +20,13 @@
 | U3 | 看懂訂單資料如何驅動畫面，並用 LINE OA Flex 完成 mock 推播 | [`U3/`](./U3/) |
 | U4 | ops agent、GitHub Actions、MCP/skills，最後整理成 Astro 技術紀錄 | [`U4/`](./U4/) |
 
-每個資料夾都有：`STEP-*.md`、`PROMPT-CARD.md`、`ACCEPTANCE.md`、`PITFALL.md`。
+這門課預設你拿到的是 zip，不是 `git clone`。第一次上課不要從整包亂找檔案。請先打開：
+
+```text
+U1/README.md
+```
+
+它會告訴你 C1 要照哪個順序做，第一步會先把 zip 變成自己的本機 Git repo。每個資料夾都有：`README.md` 或 `STEP-*.md`、`PROMPT-CARD.md`、`ACCEPTANCE.md`、`PITFALL.md`。
 
 ## 完成的定義（DoD）
 
@@ -35,6 +41,16 @@
 
 第一次會自動安裝套件，然後打開 <http://localhost:5180>。
 
+如果你是在 VS Code 裡操作，也可以用 Terminal 跑：
+
+```bash
+cd web-lab
+npm install
+npm run dev
+```
+
+看到終端機出現 `Local: http://localhost:5180/`，就用瀏覽器打開那個網址。若 port 不是 5180，以終端機顯示為準。
+
 你應該看到四個頁面：
 
 1. **品牌入口**：NOVA WAREHOUSE 首頁與 three.js 倉儲場景。
@@ -43,14 +59,6 @@
 4. **LINE 推播中心**：C3 會走完載入、檢查、Flex 預覽、人工審核、mock 推播。
 
 U4 還會使用 [`blog-lab/`](./blog-lab/)：把前面的倉儲系統、API 邊界、MCP 驗收與截圖整理成 Astro 技術紀錄，最後部署到 GitHub Pages。
-
-不想用一鍵啟動？等價指令：
-
-```bash
-cd web-lab
-npm install
-npm run dev
-```
 
 Blog 等價指令：
 

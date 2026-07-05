@@ -2,6 +2,10 @@
 
 > **這堂完成物**：專案能跑、你看得懂四個頁面、認得 VS Code / Git / Codex / Claude Code 的工作位置，並完成第一次小範圍修改。
 
+如果你不知道從哪裡開始，先回 [`README.md`](./README.md) 看今日順序。C1 不要求你自己發明功能，只要求你照流程接手 repo。
+
+開始這一步前，你應該已經完成 [`STEP-00-zip-to-git.md`](./STEP-00-zip-to-git.md)：`git init`、initial commit、`git status` 乾淨。
+
 ## 1. 一鍵啟動
 
 - Windows：雙擊 `start-m11.bat`
@@ -10,6 +14,16 @@
 **你應該看到**：瀏覽器打開 <http://localhost:5180>，首頁是 **NOVA WAREHOUSE**，背景有會動的倉儲 3D 場景。
 
 如果 5180 被占用，Vite 會在終端機顯示另一個網址。以終端機顯示的網址為準。
+
+如果你在 VS Code 裡操作，等價方式是打開 Terminal：
+
+```bash
+cd web-lab
+npm install
+npm run dev
+```
+
+看到 `Local: http://localhost:5180/` 後，用瀏覽器打開該網址。
 
 ## 2. 先看四個頁面
 
@@ -42,7 +56,17 @@
 | `CLAUDE.md` | Claude Code 補充守則 |
 | `START-HERE.md` | 整門課地圖 |
 
-## 4. 先請 AI 讀，不要改
+## 4. 確認 Git 狀態乾淨
+
+啟動專案前先確認：
+
+```bash
+git status
+```
+
+如果你看到 `fatal: not a git repository`，代表你還沒做 STEP 00，請回去先做 [`STEP-00-zip-to-git.md`](./STEP-00-zip-to-git.md)。
+
+## 5. 先請 AI 讀，不要改
 
 貼 `PROMPT-CARD.md` 的「讀專案」卡給 Codex 或 Claude Code。驗收標準只有一個：
 
@@ -52,4 +76,4 @@ git status
 
 AI 讀完專案後，`git status` 仍然乾淨，才代表它有遵守「先讀，不要改」。
 
-→ 下一步：打開 `STEP-02.md`，做第一次可見修改與 Git 快照。
+→ 下一步：打開 [`STEP-02.md`](./STEP-02.md)，做第一次可見修改與 Git 快照。
