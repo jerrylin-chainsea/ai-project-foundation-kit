@@ -16,7 +16,7 @@
 - `CLAUDE.md`：Claude Code 專用補充，通常引用或對齊 `AGENTS.md`。
 - Plan Mode：先讀檔、先提出計畫，未經人審不改檔。
 - 需求拆解：把一句話需求拆成資料欄位、業務規則、畫面位置、驗收方式。
-- 測試與驗證：用 smoke test、畫面檢查、`git diff`、`npm run build` 證明改動真的成立。
+- 測試與驗證：用測試腳本、畫面檢查、`git diff`、`npm run build` 證明改動真的成立。
 - 部署概念：理解 source code、build、`dist/`、preview、public deploy 的差別；C2 不做完整 DevOps。
 
 ## 4 小時節奏
@@ -28,7 +28,7 @@
 | 0:55-1:30 | 倉儲後台導讀與需求拆解 | 完成需求拆解工作紙 |
 | 1:30-2:15 | planner → 人審 | 拿到 A-F 計畫，並能判斷是否可放行 |
 | 2:15-2:55 | implementer 小範圍實作 | 完成 `getPendingLineOrders(orderItems)` |
-| 2:55-3:30 | 測試、畫面驗收、diff | smoke test 通過、畫面三處連動、diff 範圍乾淨 |
+| 2:55-3:30 | 測試、畫面驗收、diff | 測試腳本通過、畫面三處連動、diff 範圍乾淨 |
 | 3:30-3:50 | build / preview / 部署概念 | 知道 `npm run build`、`dist/`、`npm run preview` 各自代表什麼 |
 | 3:50-4:00 | reviewer、commit、銜接 C3 | reviewer PASS，完成可交付 commit |
 
@@ -41,7 +41,7 @@
 | 2 | [`STEP-02-data-contract.md`](./STEP-02-data-contract.md) | 讀倉儲後台、訂單資料表、庫存資料表與 C2 挖洞點 |
 | 3 | [`WORKSHEET-requirement-breakdown.md`](./WORKSHEET-requirement-breakdown.md) | 學生自己把需求拆成資料、規則、畫面、驗收 |
 | 4 | [`STEP-03-plan-implement.md`](./STEP-03-plan-implement.md) | 用 planner → 人審 → implementer 完成最小修改 |
-| 5 | [`STEP-04-test-review.md`](./STEP-04-test-review.md) | 用 smoke test、畫面、diff、build、reviewer 驗收 |
+| 5 | [`STEP-04-test-review.md`](./STEP-04-test-review.md) | 用測試腳本、畫面、diff、build、reviewer 驗收 |
 | 6 | [`STEP-05-deploy-concept.md`](./STEP-05-deploy-concept.md) | 補部署概念：build、dist、preview、public deploy 的差別 |
 | 7 | [`PROMPT-CARD.md`](./PROMPT-CARD.md) | 可直接貼給 agent 的 planner / implementer / reviewer 卡 |
 | 8 | [`ACCEPTANCE.md`](./ACCEPTANCE.md) | C2 完成定義 |

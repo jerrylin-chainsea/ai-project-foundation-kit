@@ -54,7 +54,7 @@ WarehouseAdmin.jsx / styles.css 是老師預先接好的畫面，學生不需要
 
 - 人類先審計畫
 - `git diff`
-- smoke test
+- 測試腳本
 - `npm run build`
 - reviewer
 

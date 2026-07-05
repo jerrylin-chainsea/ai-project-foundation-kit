@@ -38,4 +38,4 @@ assert.ok(
   'existing blocked-order action must still exist.',
 );
 
-console.log('[pass] C2 warehouse logic smoke test passed.');
+console.log('[pass] C2 warehouse logic test passed.');

@@ -14,11 +14,11 @@
 | KPI 還是 0 | 確認 `getPendingLineOrders` 真的 return filter 結果 |
 | LINE OA 明細沒出現 | 確認條件是 `order.channel === 'LINE OA'` 且 `order.status !== '已出貨'` |
 | action queue 沒出現 | action queue 也是吃 `getPendingLineOrders`，先確認 helper |
-| smoke test 失敗 | 看第一個 assertion message，通常是 helper 還是 `return []` 或條件寫錯 |
+| 測試腳本失敗 | 看第一個 assertion message，通常是 helper 還是 `return []` 或條件寫錯 |
 | build 失敗 | 先看錯誤檔案與行數，不要叫 AI 重構 |
 | diff 太大 | 要求 AI 回到最小修改，只保留 `getPendingLineOrders` |
 | 學生問是不是要部署 | C2 只講 build / dist / preview / deploy 概念；公開部署後面再做 |
-| reviewer 一直 PASS | 把需求、允許檔案、smoke test 結果、`git diff` 都貼給它重新檢查 |
+| reviewer 一直 PASS | 把需求、允許檔案、測試結果、`git diff` 都貼給它重新檢查 |
 | 對話變亂 | `/compact`；還是亂就新開一輪，把 planner 卡和限制重新貼上 |
 
 保底句：

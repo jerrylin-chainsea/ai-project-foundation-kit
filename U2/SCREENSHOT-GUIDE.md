@@ -12,8 +12,8 @@
 | `CLAUDE.md` | Claude Code 補充 | 先讀 AGENTS、Plan Mode、回報格式 |
 | `warehouseLogic.js` C2-HOLE | 實作入口 | `getPendingLineOrders(orderItems)` 的 `return []` |
 | planner A-F 計畫 | Plan Mode | AI 只規劃、不改檔 |
-| smoke test 失敗 | 測試概念 | 完成 helper 前，測試應該失敗 |
-| smoke test 通過 | 測試概念 | helper 完成後，測試變綠 |
+| 測試腳本失敗 | 測試概念 | 完成 helper 前，測試應該失敗 |
+| 測試腳本通過 | 測試概念 | helper 完成後，測試變綠 |
 | `git diff` | 工程驗收 | 只動 C2 允許範圍 |
 | `npm run build` 通過 | build 驗收 | Vite build successful |
 | `dist/` 資料夾 | 部署概念 | build 後產出可部署檔案 |

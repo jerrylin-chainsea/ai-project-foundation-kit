@@ -45,7 +45,7 @@ AI 可能會：
   -> 進 Plan Mode
   -> 人類審核 A-F 計畫
   -> implementer 做最小修改
-  -> smoke test / 畫面 / diff / build
+  -> 測試腳本 / 畫面 / diff / build
   -> reviewer Pass 或 Block
   -> commit
 ```
@@ -84,7 +84,7 @@ C2 不做這些：
 
 C2 會補「測試」和「部署概念」，但只到這個程度：
 
-- 測試：用 smoke test、畫面、diff、build 證明功能成立。
+- 測試：用測試腳本、畫面、diff、build 證明功能成立。
 - 部署概念：知道 source code 需要 build 成 `dist/`，再交給 hosting 平台；正式公開部署留到後面課程。
 
 下一步：[`STEP-01-controlled-vibe-coding.md`](./STEP-01-controlled-vibe-coding.md)。

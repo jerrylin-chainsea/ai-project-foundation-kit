@@ -37,7 +37,7 @@ A. 你準備修改的檔案
 B. 每個檔案各改什麼
 C. 會讀哪些資料欄位
 D. 這條規則會影響哪三個畫面
-E. 驗收方式：smoke test、畫面、diff、build
+E. 驗收方式：測試腳本、畫面、diff、build
 F. 可能風險與哪一步需要人類拍板
 ```
 
@@ -60,7 +60,7 @@ F. 可能風險與哪一步需要人類拍板
 A. 實際修改的檔案
 B. 每個檔案改了什麼
 C. 哪裡讀到 LINE OA 訂單資料與狀態
-D. 我要怎麼跑 smoke test、看畫面、看 diff、跑 build
+D. 我要怎麼跑測試腳本、看畫面、看 diff、跑 build
 E. 哪些地方你沒有改
 ```
 
@@ -82,7 +82,7 @@ Scope Check：是否超出 web-lab/src/warehouseLogic.js
 Package Check：是否修改 package.json / 新增套件
 Data Check：是否從 orderItems 判斷，不是手寫假資料
 Single Rule Check：KPI、明細、action queue 是否都由 getPendingLineOrders 間接驅動
-Smoke Test：node scripts/check-warehouse-logic.mjs 是否應該通過
+Test Check：node scripts/check-warehouse-logic.mjs 是否應該通過
 Build Check：npm run build 是否應該通過
 Regression Risk：最可能壞掉的地方
 Human Review：人還要親自看什麼

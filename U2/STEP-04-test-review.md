@@ -2,7 +2,24 @@
 
 > AI 說完成不算完成。你能用測試、畫面、diff、build 證明它完成，才算完成。
 
-## 1. 先跑 smoke test
+## 1. 先理解測試分層
+
+測試有很多種，不是只有一種寫法。
+
+| 測試類型 | 白話 | 例子 |
+|---|---|---|
+| Unit test | 測一個很小的函式是否正確 | `getPendingLineOrders(orderItems)` 是否回傳正確訂單 |
+| Integration test | 測幾個模組接在一起是否正確 | `getPendingLineOrders`、`summarizeWarehouse`、`buildActionQueue` 是否一起連動 |
+| E2E test | 從使用者角度操作整個系統 | 打開瀏覽器、點 `LINE OA 待確認`、確認畫面出現訂單 |
+
+C2 不深入教測試框架。今天只做一個最小測試腳本，讓學生知道：
+
+```text
+功能不是 AI 說完成就完成，
+而是要能用可重跑的方式證明它成立。
+```
+
+## 2. 先跑測試腳本
 
 C2 提供一個不需要新套件的測試腳本：
 
@@ -11,11 +28,7 @@ cd web-lab
 node scripts/check-warehouse-logic.mjs
 ```
 
-如果你還沒完成 `getPendingLineOrders`，它會失敗。完成後應該看到類似：
-
-```text
-[pass] C2 warehouse logic smoke test passed.
-```
+如果你還沒完成 `getPendingLineOrders`，它會失敗。完成後應該看到 `[pass]` 開頭的通過訊息。
 
 這個測試在檢查：
 
@@ -24,7 +37,7 @@ node scripts/check-warehouse-logic.mjs
 - action queue 是否出現「LINE OA 訂單需要客服確認」
 - 原本的補貨與主管確認提醒是否沒有被改壞
 
-## 2. 再看畫面
+## 3. 再看畫面
 
 ```bash
 npm run dev
@@ -38,7 +51,7 @@ npm run dev
 
 這三個地方要由同一條 `getPendingLineOrders` 規則帶動，不能各自寫死。
 
-## 3. 跑 build
+## 4. 跑 build
 
 ```bash
 npm run build
@@ -52,7 +65,7 @@ npm run build
 
 它不是完整測試，但它是前端專案交付前的最低門檻。
 
-## 4. 看 diff
+## 5. 看 diff
 
 回到專案根目錄：
 
@@ -70,7 +83,7 @@ git status
 - 沒有新增不必要檔案
 - diff 看得懂，不是整個檔案被重寫
 
-## 5. reviewer
+## 6. reviewer
 
 複製 [`PROMPT-CARD.md`](./PROMPT-CARD.md) 的「卡 3｜reviewer」。
 
@@ -80,12 +93,12 @@ reviewer 必須回覆：
 - 改了哪些檔案
 - 是否超出範圍
 - 是否從 `orderItems` 判斷，而不是寫死假資料
-- smoke test / build 應該怎麼看
+- 測試腳本 / build 應該怎麼看
 - 人類最後還要檢查什麼
 
 如果 reviewer 給 `BLOCK`，不要急著 commit。先把問題貼回 implementer 修正。
 
-## 6. commit
+## 7. commit
 
 全部通過後：
 

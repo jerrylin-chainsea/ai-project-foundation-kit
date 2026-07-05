@@ -75,7 +75,7 @@ order.channel === 'LINE OA' && order.status !== '已出貨'
 
 今天不寫大型測試框架，但要有最低限度的證明：
 
-- [ ] `node scripts/check-warehouse-logic.mjs` 通過
+- [ ] 測試腳本 `node scripts/check-warehouse-logic.mjs` 通過
 - [ ] 畫面三個位置都有變
 - [ ] 原本缺貨與主管確認提醒沒有壞掉
 - [ ] `npm run build` 通過
@@ -91,7 +91,7 @@ order.channel === 'LINE OA' && order.status !== '已出貨'
 規則是 channel === 'LINE OA' 且 status !== '已出貨'。
 它會影響 KPI、LINE OA 待確認明細、action queue。
 限制是只改 warehouseLogic.js，不改 UI、不改資料、不新增套件。
-驗收要跑 smoke test、看畫面、看 diff、跑 build。
+驗收要跑測試腳本、看畫面、看 diff、跑 build。
 ```
 
 完成後再進 [`STEP-03-plan-implement.md`](./STEP-03-plan-implement.md)。

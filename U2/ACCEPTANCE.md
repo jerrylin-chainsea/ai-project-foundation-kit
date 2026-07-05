@@ -47,7 +47,7 @@
 |---|---|
 | 概念 | 受控 vibe coding、AGENTS、CLAUDE、Plan Mode、測試、部署概念都講得出來 |
 | 畫面 | KPI、LINE OA 明細、action queue 都被同一條規則帶動 |
-| 測試 | smoke test 通過 |
+| 測試 | 測試腳本通過 |
 | diff | 主線只動 `warehouseLogic.js` 的 C2 挖洞點 |
 | build | `npm run build` 通過 |
 | preview | 知道 `npm run preview` 是看 build 後的 `dist/` |
