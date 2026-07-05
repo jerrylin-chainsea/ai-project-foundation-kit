@@ -397,6 +397,24 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   display: grid;
   gap: 24px;
 }
+.admin-shell {
+  position: relative;
+}
+.admin-shell > *:not(.ops-particle-field) {
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+.ops-particle-field {
+  position: absolute;
+  inset: 18px -36px auto -36px;
+  width: calc(100% + 72px);
+  height: 520px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.72;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+}
 .mission-band {
   padding: 28px 0 4px;
   border-bottom: 1px solid var(--line);
@@ -555,16 +573,33 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
 
 .admin-hero,
 .flow-hero {
+  width: 100%;
+  min-width: 0;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 24px;
   align-items: end;
   padding-top: 10px;
 }
+.admin-hero > div,
+.flow-hero > div {
+  min-width: 0;
+}
 .admin-hero h2,
 .flow-hero h2 {
   margin-top: 12px;
-  font-size: 44px;
+  max-width: 100%;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+.admin-title {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.35em;
+}
+.admin-title span {
+  min-width: 0;
 }
 .admin-hero p:not(.eyebrow),
 .flow-hero p:not(.eyebrow) {
@@ -573,15 +608,34 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   font-size: 18px;
   line-height: 1.75;
 }
+.admin-meta {
+  min-width: 180px;
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  color: #667085;
+  font-weight: 850;
+}
+.admin-meta strong {
+  color: #101828;
+  font-size: 18px;
+}
+.admin-meta small {
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: #e8fbf7;
+  color: #115e59;
+}
 .metric-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 12px;
 }
 .metric-card {
   padding: 20px;
   display: grid;
   gap: 8px;
+  animation: panel-enter 0.55s ease both;
 }
 .metric-card span,
 .metric-card small {
@@ -601,6 +655,81 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
 }
 .metric-card.dark span,
 .metric-card.dark small { color: rgba(255, 255, 255, 0.7); }
+.ops-workbench {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.alert-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.alert-tile {
+  min-height: 96px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: #101828;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  animation: panel-enter 0.58s ease both;
+}
+.alert-tile:hover,
+.alert-tile.active {
+  transform: translateY(-2px);
+  border-color: #101828;
+  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.1);
+}
+.alert-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #16a34a;
+  box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.12);
+}
+.alert-tile.critical .alert-light {
+  background: #dc2626;
+  box-shadow: 0 0 0 5px rgba(220, 38, 38, 0.12);
+}
+.alert-tile.warning .alert-light {
+  background: #f59e0b;
+  box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.16);
+}
+.alert-tile.pending .alert-light {
+  background: #94a3b8;
+  box-shadow: 0 0 0 5px rgba(148, 163, 184, 0.15);
+}
+.alert-copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.alert-copy strong { font-size: 16px; }
+.alert-copy small {
+  color: #667085;
+  font-weight: 800;
+}
+.alert-tile b {
+  font-size: 34px;
+  line-height: 1;
+}
+.issue-panel {
+  min-height: 216px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  animation: panel-enter 0.66s ease both;
+}
 .admin-band {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -647,6 +776,7 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
 }
 .admin-panel {
   padding: 22px;
+  animation: panel-enter 0.62s ease both;
 }
 .panel-head {
   display: flex;
@@ -699,6 +829,16 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   border-radius: 8px;
   background: #f8fafc;
   border: 1px solid var(--line);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+.stock-line.muted {
+  color: #667085;
+  background: #f3f4f6;
+}
+.stock-line:hover {
+  transform: translateX(3px);
+  border-color: #b9eee5;
+  background: #f3fbf9;
 }
 .stock-line span {
   color: #667085;
@@ -733,6 +873,33 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
 .status-chip.healthy { color: #166534; background: #dcfce7; }
 .status-chip.low { color: #92400e; background: #fef3c7; }
 .status-chip.out { color: #991b1b; background: #fee2e2; }
+.status-chip.priority-high { color: #991b1b; background: #fee2e2; }
+.status-chip.priority-medium { color: #92400e; background: #fef3c7; }
+.status-chip.priority-low { color: #166534; background: #dcfce7; }
+
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metric-card,
+  .admin-panel,
+  .alert-tile,
+  .issue-panel {
+    animation: none;
+  }
+  .alert-tile,
+  .stock-line {
+    transition: none;
+  }
+}
 
 .flow-alert {
   min-width: 210px;
@@ -859,6 +1026,7 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   .module-grid,
   .metric-grid,
   .admin-grid,
+  .ops-workbench,
   .acceptance-band ul { grid-template-columns: 1fr 1fr; }
   .flow-band,
   .insight-section,
@@ -867,6 +1035,7 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   .flow-hero,
   .flow-visual,
   .flow-note div { grid-template-columns: 1fr; }
+  .admin-meta { justify-items: start; }
   .hero-metrics { position: relative; right: auto; bottom: auto; width: calc(100% - 40px); margin: -96px auto 28px; }
 }
 
@@ -877,12 +1046,26 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   .hero-metrics,
   .module-grid,
   .metric-grid,
+  .ops-workbench,
+  .alert-board,
   .zone-grid,
   .acceptance-band ul,
   .flow-track { grid-template-columns: 1fr; }
   .admin-shell,
   .flow-shell,
   .site-main { width: min(100% - 28px, 1120px); }
+  .admin-hero h2,
+  .flow-hero h2 { font-size: 30px; }
+  .admin-title {
+    display: grid;
+    gap: 6px;
+  }
+  .admin-meta { min-width: 0; }
+  .ops-particle-field {
+    inset: 18px 0 auto 0;
+    width: 100%;
+    height: 470px;
+  }
   .module-card { min-height: auto; }
   .order-canvas { min-height: 300px; }
 }

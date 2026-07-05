@@ -26,11 +26,20 @@ export function getBlockedOrders(items) {
     .sort((a, b) => b.amount - a.amount);
 }
 
+export function getPendingLineOrders(orderItems) {
+  // C2-HOLE: 課堂要在這裡完成 LINE OA 客服確認規則。
+  // 目標：回傳 channel === 'LINE OA' 且 status !== '已出貨' 的訂單。
+  // 這個 helper 會同時影響 KPI、客服清單、action queue 三個畫面位置。
+  return [];
+}
+
 export function summarizeWarehouse(items, orderItems) {
   const lowStockItems = getLowStockItems(items);
   const blockedOrders = getBlockedOrders(orderItems);
   const openOrders = orderItems.filter((order) => order.status !== '已出貨');
+  const pendingLineOrders = getPendingLineOrders(orderItems);
   const revenueAtRisk = blockedOrders.reduce((sum, order) => sum + order.amount, 0);
+  const linePendingRevenue = pendingLineOrders.reduce((sum, order) => sum + order.amount, 0);
 
   return {
     totalSku: items.length,
@@ -38,6 +47,8 @@ export function summarizeWarehouse(items, orderItems) {
     outOfStockCount: lowStockItems.filter((item) => item.status === 'out').length,
     openOrderCount: openOrders.length,
     blockedOrderCount: blockedOrders.length,
+    linePendingCount: pendingLineOrders.length,
+    linePendingRevenue,
     revenueAtRisk,
     nextAction:
       blockedOrders.length > 0
@@ -49,7 +60,7 @@ export function summarizeWarehouse(items, orderItems) {
 export function buildActionQueue(items, orderItems) {
   const lowStockItems = getLowStockItems(items);
   const blockedOrders = getBlockedOrders(orderItems);
-  const lineOpenOrders = orderItems.filter((order) => order.channel === 'LINE OA' && order.status !== '已出貨');
+  const pendingLineOrders = getPendingLineOrders(orderItems);
   const actions = [];
 
   if (lowStockItems.length > 0) {
@@ -70,11 +81,11 @@ export function buildActionQueue(items, orderItems) {
     });
   }
 
-  if (lineOpenOrders.length > 0) {
+  if (pendingLineOrders.length > 0) {
     actions.push({
       level: 'warning',
       title: 'LINE OA 訂單需要客服確認',
-      detail: `${lineOpenOrders.length} 筆尚未出貨，請客服確認回覆與出貨狀態`,
+      detail: `目前有 ${pendingLineOrders.length} 筆 LINE OA 訂單尚未出貨，請先確認收件人與 ETA`,
     });
   }
 

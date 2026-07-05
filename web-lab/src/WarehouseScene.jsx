@@ -213,7 +213,7 @@ export default function WarehouseScene() {
 
     const labels = [
       createLabel('128 active orders', [-10.2, 5.3, 7.8], [3.7, 1.0, 1]),
-      createLabel('6 SKU at risk', [0.5, 6.7, -11.4], [3.1, 0.9, 1]),
+      createLabel('6 products at risk', [0.5, 6.7, -11.4], [3.1, 0.9, 1]),
       createLabel('LINE OA ready', [10.5, 4.8, 5.8], [3.2, 0.9, 1]),
     ];
     labels.forEach((label) => scene.add(label));

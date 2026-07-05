@@ -32,7 +32,7 @@
 | 堂 | 允許修改 |
 |---|---|
 | U1 | `web-lab/src/data.js` |
-| U2 | `web-lab/src/WarehouseAdmin.jsx`、`web-lab/src/warehouseLogic.js`、`web-lab/src/styles.css`（僅倉儲後台區塊） |
+| U2 | 主線只改 `web-lab/src/warehouseLogic.js` 的 `getPendingLineOrders`；`WarehouseAdmin.jsx` / `styles.css` 是老師預先接好的畫面，只有老師明確指定才改 |
 | U3 | `web-lab/src/OrderFlow.jsx`、`web-lab/src/OrderFlowCanvas.jsx`、`web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅訂單可視化或 Dashboard 區塊）、`data-lab/report.json`、`data-lab/orders.json`（練習用）、`line-lab/.env`（自己的真送設定，不 commit）。`vite.config.js`／`reportContract.js`／`sendLineAlert.js` 是老師寫好的後端與雙胞胎，只在老師指定時才動 |
 | U4 | `ops-agent-lab/**`、`.github/workflows/u11-ops-check.yml`、`.github/workflows/deploy-blog.yml`、`data-lab/report.json`（產出檔）、`line-lab/line-flex-payload.json`（產出檔）、`.claude/commands/ops-check.md`、`.claude/commands/ship-check.md`、`blog-lab/src/content/blog/**`、`blog-lab/public/images/**` |
 

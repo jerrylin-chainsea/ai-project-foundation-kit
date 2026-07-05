@@ -28,7 +28,7 @@ Blog：`cd blog-lab && npm run dev` 預覽 Astro 技術紀錄，`npm run build` 
 
 - 不新增套件、不改 `package.json`、不重構。
 - token 不進程式碼、不進前端、不 commit；前端永遠不直接打 `api.line.me`（由本機後端代打）。
-- `web-lab/src/warehouseData.js` 是倉儲後台與訂單可視化的教學資料；U2 通常改 `warehouseLogic.js`，不是直接亂改資料。
+- `web-lab/src/warehouseData.js` 是倉儲後台與訂單可視化的教學資料；U2 主線只改 `warehouseLogic.js` 的 `getPendingLineOrders`，不是直接亂改資料或 UI。
 - `data-lab/report.json`（營運異常）與 `data-lab/orders.json`（LINE 訂單範本）各是一份資料合約；`risk_level` 只能是 `low / medium / high`。
 - GitHub Actions 主線只產生 artifact，不在 CI 裡真送 LINE。
 - Blog 主線只改 `blog-lab/src/content/blog/**` 與 `blog-lab/public/images/**`；不要讓 AI 為了寫文章改 Astro 套件或部署設定。

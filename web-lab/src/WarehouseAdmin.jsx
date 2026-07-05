@@ -1,11 +1,13 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { warehouse, inventory, orders, zones } from './warehouseData.js';
+import OpsParticleField from './OpsParticleField.jsx';
 import {
   buildActionQueue,
   classifyInventoryItem,
   formatCurrency,
-  getInventoryShortage,
+  getBlockedOrders,
   getLowStockItems,
+  getPendingLineOrders,
   summarizeWarehouse,
 } from './warehouseLogic.js';
 
@@ -15,6 +17,12 @@ const statusLabel = {
   healthy: '正常',
 };
 
+const priorityLabel = {
+  high: '高',
+  medium: '中',
+  low: '低',
+};
+
 function MetricCard({ label, value, note, tone = 'neutral' }) {
   return (
     <article className={`metric-card ${tone}`}>
@@ -22,6 +30,23 @@ function MetricCard({ label, value, note, tone = 'neutral' }) {
       <strong>{value}</strong>
       <small>{note}</small>
     </article>
+  );
+}
+
+function AlertTile({ alert, active, onSelect }) {
+  return (
+    <button
+      type="button"
+      className={`alert-tile ${alert.tone} ${active ? 'active' : ''}`}
+      onClick={onSelect}
+    >
+      <span className="alert-light" aria-hidden="true" />
+      <span className="alert-copy">
+        <strong>{alert.label}</strong>
+        <small>{alert.note}</small>
+      </span>
+      <b>{alert.value}</b>
+    </button>
   );
 }
 
@@ -42,6 +67,25 @@ function InventoryRow({ item }) {
   );
 }
 
+function OrderRow({ order }) {
+  return (
+    <tr>
+      <td>{order.id}</td>
+      <td>{order.customer}</td>
+      <td>{order.channel}</td>
+      <td>{order.status}</td>
+      <td>
+        <span className={`status-chip priority-${order.priority}`}>
+          {priorityLabel[order.priority]}
+        </span>
+      </td>
+      <td>{order.zone}</td>
+      <td>{formatCurrency(order.amount)}</td>
+      <td>{order.eta}</td>
+    </tr>
+  );
+}
+
 function ActionItem({ item }) {
   return (
     <li className={`action-item ${item.level}`}>
@@ -51,40 +95,148 @@ function ActionItem({ item }) {
   );
 }
 
+function IssueDetail({ selected, lowStockItems, blockedOrders, pendingLineOrders }) {
+  const outItems = lowStockItems.filter((item) => item.status === 'out');
+  const lowItems = lowStockItems.filter((item) => item.status === 'low');
+  const details = {
+    out: {
+      title: '缺貨商品',
+      rows: outItems.map((item) => ({
+        title: `${item.sku} / ${item.product}`,
+        meta: `${item.zone} / 現有 ${item.stock} / 安全量 ${item.reorderPoint} / ${item.owner}`,
+      })),
+    },
+    low: {
+      title: '低庫存商品',
+      rows: lowItems.map((item) => ({
+        title: `${item.sku} / ${item.product}`,
+        meta: `${item.zone} / 缺 ${item.shortage} / ${item.owner}`,
+      })),
+    },
+    blocked: {
+      title: '需介入訂單',
+      rows: blockedOrders.map((order) => ({
+        title: `${order.id} / ${order.customer}`,
+        meta: `${order.channel} / ${order.status} / ETA ${order.eta} / ${formatCurrency(order.amount)}`,
+      })),
+    },
+    line: {
+      title: 'LINE OA 待確認',
+      rows: pendingLineOrders.map((order) => ({
+        title: `${order.id} / ${order.customer}`,
+        meta: `${order.status} / ETA ${order.eta} / ${formatCurrency(order.amount)}`,
+      })),
+    },
+  };
+  const detail = details[selected] ?? details.blocked;
+
+  return (
+    <article className="issue-panel">
+      <div className="panel-head">
+        <h3>{detail.title}</h3>
+        <span>{detail.rows.length} items</span>
+      </div>
+      <div className="compact-list">
+        {detail.rows.length === 0 ? (
+          <div className="stock-line muted">
+            <strong>目前沒有資料</strong>
+            <span>完成 C2 規則後，相關訂單會出現在這裡</span>
+          </div>
+        ) : (
+          detail.rows.map((row) => (
+            <div className="stock-line" key={row.title}>
+              <strong>{row.title}</strong>
+              <span>{row.meta}</span>
+            </div>
+          ))
+        )}
+      </div>
+    </article>
+  );
+}
+
 export default function WarehouseAdmin() {
+  const [selectedIssue, setSelectedIssue] = useState('blocked');
   const summary = useMemo(() => summarizeWarehouse(inventory, orders), []);
   const lowStockItems = useMemo(() => getLowStockItems(inventory), []);
+  const blockedOrders = useMemo(() => getBlockedOrders(orders), []);
+  const pendingLineOrders = useMemo(() => getPendingLineOrders(orders), []);
   const actionQueue = useMemo(() => buildActionQueue(inventory, orders), []);
+  const outOfStockItems = lowStockItems.filter((item) => item.status === 'out');
+  const warningStockItems = lowStockItems.filter((item) => item.status === 'low');
+  const alerts = [
+    {
+      id: 'out',
+      label: '缺貨商品',
+      value: outOfStockItems.length,
+      note: '採購確認',
+      tone: outOfStockItems.length > 0 ? 'critical' : 'ok',
+    },
+    {
+      id: 'low',
+      label: '低庫存商品',
+      value: warningStockItems.length,
+      note: '安全量以下',
+      tone: warningStockItems.length > 0 ? 'warning' : 'ok',
+    },
+    {
+      id: 'blocked',
+      label: '需介入訂單',
+      value: blockedOrders.length,
+      note: '缺料或高優先',
+      tone: blockedOrders.length > 0 ? 'critical' : 'ok',
+    },
+    {
+      id: 'line',
+      label: 'LINE OA 待確認',
+      value: pendingLineOrders.length,
+      note: '客服回覆前檢查',
+      tone: pendingLineOrders.length > 0 ? 'warning' : 'pending',
+    },
+  ];
 
   return (
     <main className="admin-shell">
+      <OpsParticleField />
       <header className="admin-hero">
-        <p className="eyebrow solid">C2 · AGENTS.md / CLAUDE.md / Plan Mode</p>
-        <h2>{warehouse.name} 後台倉儲管理系統</h2>
-        <p>
-          這一頁是 C2 的主戰場：學生會在既有後台裡做小範圍開發，練習先規劃、再實作、最後驗證。
-          C3 的訂單可視化與 LINE Flex 會沿用這裡的資料語言。
-        </p>
+        <div>
+          <p className="eyebrow solid">warehouse operations</p>
+          <h2 className="admin-title">
+            <span>{warehouse.name}</span>
+            <span>控制台</span>
+          </h2>
+        </div>
+        <div className="admin-meta">
+          <span>{warehouse.date}</span>
+          <strong>{warehouse.owner}</strong>
+          <small>SLA {warehouse.slaTarget}</small>
+        </div>
       </header>
 
       <section className="metric-grid" aria-label="倉儲摘要">
-        <MetricCard label="SKU 總數" value={summary.totalSku} note="inventory source" />
-        <MetricCard label="低庫存 SKU" value={summary.lowStockCount} note={`${summary.outOfStockCount} 項缺貨`} tone="warn" />
+        <MetricCard label="商品貨號" value={summary.totalSku} note="庫存品項" />
         <MetricCard label="開放訂單" value={summary.openOrderCount} note={`${summary.blockedOrderCount} 筆需介入`} tone="danger" />
+        <MetricCard label="LINE OA" value={summary.linePendingCount} note={`${formatCurrency(summary.linePendingRevenue)} 待確認`} tone="warn" />
         <MetricCard label="風險金額" value={formatCurrency(summary.revenueAtRisk)} note="blocked orders" tone="dark" />
       </section>
 
-      <section className="admin-band">
-        <div>
-          <p className="eyebrow solid">next action</p>
-          <h3>今日優先處理</h3>
-          <p className="admin-lead">{summary.nextAction}</p>
-        </div>
-        <ol className="action-list">
-          {actionQueue.map((item) => (
-            <ActionItem item={item} key={`${item.level}-${item.title}`} />
+      <section className="ops-workbench">
+        <div className="alert-board" aria-label="異常警示">
+          {alerts.map((alert) => (
+            <AlertTile
+              alert={alert}
+              active={selectedIssue === alert.id}
+              key={alert.id}
+              onSelect={() => setSelectedIssue(alert.id)}
+            />
           ))}
-        </ol>
+        </div>
+        <IssueDetail
+          selected={selectedIssue}
+          lowStockItems={lowStockItems}
+          blockedOrders={blockedOrders}
+          pendingLineOrders={pendingLineOrders}
+        />
       </section>
 
       <section className="admin-grid">
@@ -109,32 +261,55 @@ export default function WarehouseAdmin() {
 
         <article className="admin-panel">
           <div className="panel-head">
-            <h3>低庫存明細</h3>
-            <span>{lowStockItems.length} rows</span>
+            <h3>處理佇列</h3>
+            <span>{actionQueue.length} actions</span>
           </div>
-          <div className="compact-list">
-            {lowStockItems.map((item) => (
-              <div className="stock-line" key={item.sku}>
-                <strong>{item.product}</strong>
-                <span>
-                  {item.zone} / 缺 {getInventoryShortage(item)} / {item.owner}
-                </span>
-              </div>
+          <ol className="action-list">
+            {actionQueue.map((item) => (
+              <ActionItem item={item} key={`${item.level}-${item.title}`} />
             ))}
-          </div>
+          </ol>
         </article>
       </section>
 
       <section className="admin-panel">
         <div className="panel-head">
-          <h3>庫存資料表</h3>
-          <span>readable by agent</span>
+          <h3>訂單資料表</h3>
+          <span>{orders.length} rows</span>
         </div>
         <div className="table-wrap">
           <table className="admin-table">
             <thead>
               <tr>
-                <th>SKU</th>
+                <th>訂單</th>
+                <th>客戶</th>
+                <th>通路</th>
+                <th>狀態</th>
+                <th>優先</th>
+                <th>Zone</th>
+                <th>金額</th>
+                <th>ETA</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <OrderRow order={order} key={order.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="admin-panel">
+        <div className="panel-head">
+          <h3>庫存資料表</h3>
+          <span>{inventory.length} rows</span>
+        </div>
+        <div className="table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>商品貨號</th>
                 <th>品項</th>
                 <th>Zone</th>
                 <th>庫存</th>
