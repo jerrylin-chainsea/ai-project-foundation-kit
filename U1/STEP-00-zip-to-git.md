@@ -72,6 +72,7 @@ git status
 ```bash
 git add .
 git commit -m "初始化 M11 專案包"
+git branch -M main
 git status
 ```
 
@@ -94,6 +95,7 @@ git config --global user.email "你的信箱"
 
 ```bash
 git commit -m "初始化 M11 專案包"
+git branch -M main
 ```
 
 ## 7. 這一步的完成定義
@@ -101,6 +103,7 @@ git commit -m "初始化 M11 專案包"
 - VS Code 開的是 `ai-project-foundation-kit/` 根目錄。
 - `git init` 已完成。
 - 有一筆 initial commit。
+- 目前主要分支叫做 `main`。
 - `git status` 乾淨。
 
 → 下一步：打開 [`STEP-01.md`](./STEP-01.md)，把 web-lab 跑起來。

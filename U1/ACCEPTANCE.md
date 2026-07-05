@@ -6,6 +6,7 @@
 - [ ] 從 zip 解壓後，用 VS Code 開的是 `ai-project-foundation-kit/` 根目錄
 - [ ] 完成 `git init`
 - [ ] 完成 initial commit：`初始化 M11 專案包`
+- [ ] initial commit 後主要分支叫做 `main`
 - [ ] initial commit 後 `git status` 乾淨
 - [ ] 看過四個頁面：品牌入口、倉儲後台、訂單可視化、LINE 推播中心
 - [ ] 指得出 VS Code 的 Explorer / Editor / Terminal
@@ -17,13 +18,18 @@
 - [ ] 完成第一次 commit，`git status` 乾淨
 - [ ] 用 Claude Code 或 Codex review 最新 commit
 - [ ] 說得出 main / feature branch / diff / commit 的 Git flow
+- [ ] GitHub 上已建立自己的 repo
+- [ ] `git remote -v` 看得到 `origin`
+- [ ] `main` 已 push 到 GitHub
+- [ ] `feature/u1-first-edit` 已 push 到 GitHub
+- [ ] 說得出 C1 只上傳 repo，U4 才做 GitHub Pages 部署
 
 ## DoD 對照
 
 | 驗收面向 | 這堂的標準 |
 |---|---|
 | 畫面 | NOVA 首頁正常，H1 能熱更新 |
-| 輸出 | AI 專案摘要、`git status`、initial commit |
+| 輸出 | AI 專案摘要、`git status`、initial commit、GitHub repo URL |
 | diff | 只動 `data.js`，且 AI review 有指出檔案範圍 |
-| build | 這堂不強制 build |
+| build | 這堂不強制 build，不跑 Pages 部署 |
 | human review | 你親眼看過畫面與 diff |

@@ -55,4 +55,4 @@ git status
 - commit：有一筆 commit，`git status` 乾淨
 - human review：你親眼看過畫面與 diff，不是只相信 AI 說完成
 
-→ 下一步：打開 [`STEP-03-gitflow.md`](./STEP-03-gitflow.md)，把剛剛做的動作整理成 Git flow。
+→ 下一步：打開 [`STEP-03-github-upload.md`](./STEP-03-github-upload.md)，把 main 和 feature branch 推上 GitHub。

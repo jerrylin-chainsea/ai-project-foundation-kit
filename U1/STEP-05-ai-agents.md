@@ -1,4 +1,4 @@
-# U1 · STEP 04 ｜ Claude Code / Codex：先讀、review，不要一開始就改
+# U1 · STEP 05 ｜ Claude Code / Codex：先讀、review，不要一開始就改
 
 > **這一步完成物**：你知道 Claude Code / Codex 在開發流程裡的位置，並用它們做一次「讀專案」與「diff review」。
 

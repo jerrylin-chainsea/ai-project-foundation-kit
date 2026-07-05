@@ -55,3 +55,21 @@ Next Step：下一步我應該做什麼
 ```
 
 **驗收**：AI 的回答要能幫你講給同學或企業聽，不是只列指令。
+
+## 卡 4 ｜ GitHub 上傳檢查
+
+貼到 Claude Code 或 Codex：
+
+```text
+請檢查我是否已經正確把 C1 repo 上傳到 GitHub。
+不要修改任何檔案。
+
+請根據 git remote -v、git branch、git status、git log --oneline -5 回答：
+1. origin 是否存在
+2. main 是否已 push 到 GitHub
+3. feature/u1-first-edit 是否已 push 到 GitHub
+4. C1 上傳 repo 和 U4 GitHub Pages 部署有什麼差別
+5. 如果 push 失敗，最可能是哪三種原因
+```
+
+**驗收**：AI 必須分清楚「GitHub repo 上傳」和「GitHub Pages 部署」。
