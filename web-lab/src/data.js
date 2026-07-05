@@ -2,7 +2,7 @@
 // C1 初學者只改這裡，就能看到畫面熱更新，不需要碰 React 元件與 three.js 場景。
 
 export const brand = {
-  name: 'NOVA WAREHOUSE｜Jerry',
+  name: 'NOVA WAREHOUSE｜AI OPERATIONS CONTROL TOWER',
   badge: 'AI OPERATIONS CONTROL TOWER',
   tagline: '把訂單、庫存、異常通知與交付驗收收進同一個控制台。',
   description:

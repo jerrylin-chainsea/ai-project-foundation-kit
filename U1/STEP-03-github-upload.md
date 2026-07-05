@@ -72,23 +72,7 @@ git push -u origin feature/u1-first-edit
 - `main` 是乾淨的起始專案。
 - `feature/u1-first-edit` 有你修改首頁標題的 commit。
 
-## 7. 為什麼不會跟 U4 打架
-
-C1 做的是：
-
-```text
-本機 repo → GitHub 遠端 repo
-```
-
-U4 做的是：
-
-```text
-GitHub repo → GitHub Actions → GitHub Pages 公開網站
-```
-
-所以 C1 先上傳 repo 不會跟 U4 打架，反而是 U4 部署的前置條件。C1 不開 Pages、不設定 Actions，只確認 repo 能 push。
-
-## 8. 這一步的完成定義
+## 7. 這一步的完成定義
 
 - GitHub 上有你的 repo。
 - `origin` 設定正確。
