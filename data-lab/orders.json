@@ -1,10 +1,12 @@
 {
-  "order_id": "SO-20260705-018",
-  "customer": "辰海醫材",
-  "channel": "B2B Portal",
-  "status": "待揀貨",
-  "amount": 9520,
+  "order_id": "SO-20260705-021",
+  "customer": "朗日餐飲集團",
+  "channel": "LINE OA",
+  "status": "待出貨",
+  "amount": 4860,
+  "eta": "15:10",
   "items": [
-    { "name": "冷鏈保溫箱 32L", "qty": 4, "price": 2380 }
+    { "name": "批發出貨封箱耗材組", "qty": 6, "price": 420 },
+    { "name": "溫控紀錄貼片", "qty": 8, "price": 310 }
   ]
 }

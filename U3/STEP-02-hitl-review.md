@@ -1,78 +1,127 @@
-# U3 · STEP 02 ｜ LINE Flex、API、token 與 Human-in-the-loop
+# U3 · STEP 02 ｜製作、審核、真送 LINE Flex
 
-先打開 [`API-FLOW.md`](./API-FLOW.md)。這份圖解會先把 API、webhook、token、env var、mock-vs-real 的責任邊界講清楚，再回到畫面操作。
+先確認你已經完成：
 
-## 1. Button 1：載入範例資料
+```text
+U3/START-HERE.md 的 .env 設定
+```
 
-在「LINE 推播中心」選「營運異常」或「訂單資訊」，按「載入範例資料」。
+這一步會真的推播 LINE OA，不是只看 mock。
 
-你應該看到畫面顯示資料檔裡的欄位：
+## 1. Button 1：載入資料
 
-- `report.json`：風險等級、營收、異常數、top product、action items
-- `orders.json`：訂單編號、客戶、通路、狀態、金額、品項
+在「LINE 推播中心」選：
+
+```text
+訂單資訊
+```
+
+按：
+
+```text
+載入範例資料
+```
+
+你應該看到畫面出現訂單資料，例如：
+
+- 訂單編號
+- 客戶
+- 通路
+- 狀態
+- 金額
+- 商品明細
 
 ## 2. Button 2：檢查資料合約
 
-按「檢查資料合約」。綠色通過代表必要欄位存在，且 `risk_level` 是 `low / medium / high`。
+按：
 
-資料合約沒過時，後面的 Flex 預覽與推播會被擋下。
+```text
+檢查資料合約
+```
+
+綠色通過代表這筆資料可以拿來做 Flex Message。
+
+如果沒有通過，不要硬送。先看錯誤訊息。
 
 ## 3. Button 3：生成 Flex 預覽
 
-按「生成 Flex 預覽」。你會看到 LINE 卡片樣式，也可以切到 JSON。
+按：
 
-這就是 payload：前端與後端都要看得懂的結構化資料。
+```text
+生成 Flex 預覽
+```
+
+你會看到 LINE 卡片大概長什麼樣。
+
+這裡要檢查：
+
+- 客戶名稱是否正確
+- 金額是否正確
+- 訂單狀態是否正確
+- 卡片文字是否像人會看得懂的通知
 
 ## 4. Button 4：人工審核
 
-先不要勾 checkbox。你會看到推播按鈕是暗的。
+先不要勾 checkbox。
 
-認真檢查 Flex 卡片後，勾選：
+你會看到推播按鈕不能按。
+
+確認內容沒問題後，勾：
 
 ```text
 我已人工審核這則通知內容
 ```
 
-通知不是 AI 產生就能送出，而是人審後才送。
+這一步的意思是：AI 可以幫你產生，但最後送出前仍要有人負責。
 
 ## 5. Button 5：推播 LINE Flex
 
-按「推播 LINE Flex」。沒設定 token 時，應該看到：
+按：
 
 ```text
-[mock] LINE_REAL_SEND is not 1, no request sent.
+推播 LINE Flex
 ```
 
-看到 `[mock]` 就是主線過關，不是手機收到才算過關。
+主線成功時，你應該真的在 LINE OA / 群組 / 手機上收到 Flex Message。
 
-## 6. 用 DevTools 看 API 邊界
+畫面也應該顯示已送出。
 
-按 F12 → Network → 再按一次推播。
+如果看到 `[mock]`，代表 `.env` 沒有進入真送模式。回去檢查：
 
-你應該看到瀏覽器只打本機 API：
+- `line-lab/.env` 是否存在
+- `LINE_REAL_SEND=1`
+- token 與 target 是否已填
+- `npm run dev` 是否有重啟
+
+## 6. 最少要懂的邊界
+
+這不是 API 細節課，但你要知道：
 
 ```text
-POST /api/send-line-flex
+畫面按鈕 → 專案裡老師寫好的送出橋接 → LINE OA
 ```
 
-瀏覽器不會直接打 `api.line.me`，也不會帶 token。token 只在 `line-lab/.env`，真正打 LINE 的是後端。
+前端畫面不應該拿到 token。
 
-請對照 [`API-FLOW.md`](./API-FLOW.md) 的 mock flow：
+token 只放在：
 
 ```text
-Browser / React → /api/send-line-flex → Vite dev middleware → line-lab/sendLineAlert.js → mock result
+line-lab/.env
 ```
 
-這張 flow 是 C3 最重要的觀念圖。學生要能說出：前端只送 payload，token 留在後端，mock 是主線，真送是進階。
+## 7. 終端機驗收
 
-## 7. 真送是進階，不是主線
+真送前，也可以用終端機確認橋接程式可以跑：
 
-有 LINE OA 的同學才做：
+```bash
+node line-lab/sendLineAlert.js --flex --confirm
+```
 
-1. 複製 `line-lab/.env.example` 成 `line-lab/.env`
-2. 填 `LINE_CHANNEL_ACCESS_TOKEN` 與 `LINE_TARGET_ID`
-3. 設 `LINE_REAL_SEND=1`
-4. 重啟 `npm run dev`
-5. 人工審核後再按推播
+最後確認專案能 build：
 
-沒有 LINE OA 完全不影響過關。
+```bash
+cd web-lab
+npm run build
+```
+
+下一步：`ACCEPTANCE.md`。

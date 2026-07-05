@@ -2,7 +2,7 @@
 
 | 狀況 | 處理 |
 |---|---|
-| 學生覺得只是在貼 prompt | 回到 STEP 00，強調每張 prompt 都對應一個開發角色：planner、implementer、reviewer |
+| 學生覺得只是在貼 prompt | 回到 `START-HERE.md`，強調每張 prompt 都對應一個開發角色：planner、implementer、reviewer |
 | 不知道 AGENTS.md 有什麼用 | 讓學生找出 C2 允許檔案，說明它是 AI 的工作邊界 |
 | 不知道 CLAUDE.md 有什麼用 | 說明它是 Claude Code 補充，不取代 AGENTS.md |
 | AI 在 planner 階段就改檔 | 停下來，要求它回報已改內容；必要時用 git diff 檢查 |

@@ -3,37 +3,36 @@
 ## 訂單可視化
 
 - [ ] 看過「訂單可視化」頁的 three.js 訂單流動畫
-- [ ] 說得出 `OrderFlow.jsx` 是 component，`styles.css` 管狀態樣式
-- [ ] 說得出資料欄位如何影響畫面：status、zone、amount、eta
+- [ ] 說得出訂單資料會影響畫面上的狀態、區域、金額、ETA
+- [ ] 說得出 `OrderFlow.jsx` 是畫面元件，`styles.css` 管視覺狀態
 
-## LINE Flex 主線
+## LINE OA Flex 真送
 
-- [ ] 說得出 `API-FLOW.md` 裡 mock send 的資料流：Browser → `/api/send-line-flex` → 本機後端 → LINE sender script → mock result
-- [ ] 說得出 webhook 是 LINE Platform 主動 POST 回 bot server，方向和 push API 相反
-- [ ] 說得出 token / env var 為什麼不能進前端或 commit
-- [ ] 「營運異常」與「訂單資訊」兩個範本都能切換
-- [ ] 按「載入範例資料」後，畫面欄位與資料檔一致
+- [ ] `line-lab/.env` 已填入老師提供的 LINE OA 設定
+- [ ] `LINE_REAL_SEND=1`
+- [ ] 改完 `.env` 後已重啟 `npm run dev`
+- [ ] 「LINE 推播中心」選到 `訂單資訊`
+- [ ] 按「載入資料」後，畫面欄位與 `data-lab/orders.json` 一致
 - [ ] 按「檢查資料合約」看到綠色通過
-- [ ] 按「生成 Flex 預覽」看到 LINE 卡片，也能切 JSON
+- [ ] 按「生成 Flex 預覽」看到 LINE 卡片
 - [ ] 未勾人工審核時，推播按鈕不可按
 - [ ] 勾選人工審核後，推播按鈕可按
-- [ ] 按推播後看到 `[mock] LINE_REAL_SEND is not 1, no request sent.`
-- [ ] DevTools Network 只看到 `/api/send-line-flex`，沒有前端直接呼叫 `api.line.me`
+- [ ] 按「推播 LINE Flex」後，LINE OA / 群組 / 手機真的收到 Flex Message
+- [ ] 畫面顯示已送出
 
-## ReAct 修錯
+## 最少工程概念
 
-- [ ] 把 `risk_level` 改成「嚴重」後，紅色擋牌出現
-- [ ] CLI `node line-lab/sendLineAlert.js --flex` 也被同一個合約擋下
-- [ ] ReAct 卡先分析不改檔
-- [ ] 放行後只做最小修正
-- [ ] 修好後 build 通過
+- [ ] 說得出 Flex Message 是 LINE 卡片的資料結構
+- [ ] 說得出 token 為什麼不能放前端或 commit
+- [ ] 說得出今天的送出橋接是老師寫好的，學生主線不是重寫 API
 
-## DoD 對照
+## 收尾
 
-| 驗收面向 | 這堂的標準 |
-|---|---|
-| 畫面 | 訂單可視化正常、Flex 預覽正常、擋牌能出現也能消失 |
-| 輸出 | `[mock]`、contract error、ReAct 格式、Network request |
-| diff | 只動允許檔案 |
-| build | `npm run build` 通過 |
-| human review | checkbox 是你自己勾的、Minimal Patch 是你放行的 |
+- [ ] `cd web-lab && npm run build` 通過
+- [ ] `.env` 沒有被 commit
+- [ ] 可以截圖或展示 LINE 上收到的 Flex Message
+
+## 加分排錯
+
+- [ ] 完成 `STEP-03-react-debug.md`
+- [ ] 能說出資料合約錯誤為什麼會擋下 Flex 推播
