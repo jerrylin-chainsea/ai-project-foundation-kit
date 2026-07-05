@@ -49,6 +49,7 @@ export function summarizeWarehouse(items, orderItems) {
 export function buildActionQueue(items, orderItems) {
   const lowStockItems = getLowStockItems(items);
   const blockedOrders = getBlockedOrders(orderItems);
+  const lineOpenOrders = orderItems.filter((order) => order.channel === 'LINE OA' && order.status !== '已出貨');
   const actions = [];
 
   if (lowStockItems.length > 0) {
@@ -69,9 +70,13 @@ export function buildActionQueue(items, orderItems) {
     });
   }
 
-  // C2-HOLE: 課堂要在這裡新增第三條規則。
-  // 目標：從 orderItems 找出 channel === 'LINE OA' 且 status !== '已出貨' 的訂單。
-  // 驗收：action queue 出現「LINE OA 訂單需要客服確認」，而且數字必須由資料算出來。
+  if (lineOpenOrders.length > 0) {
+    actions.push({
+      level: 'warning',
+      title: 'LINE OA 訂單需要客服確認',
+      detail: `${lineOpenOrders.length} 筆尚未出貨，請客服確認回覆與出貨狀態`,
+    });
+  }
 
   return actions;
 }
