@@ -92,10 +92,10 @@ function FlexBubblePreview({ message }) {
   );
 }
 
-// 低庫存推播準備(C2 新增的小區塊,保留)。營運異常範本才顯示。
+// 推播資料摘要。營運異常範本才顯示,讓學生看懂資料如何進入 Flex 前的人工審核。
 function PushReadiness({ report }) {
   return (
-    <div className="dash-ready" aria-label="低庫存推播準備">
+    <div className="dash-ready" aria-label="推播資料摘要">
       <div>
         <span>推播主題</span>
         <strong>{report.anomaly_count > 0 ? '低庫存補貨提醒' : '庫存狀態更新'}</strong>

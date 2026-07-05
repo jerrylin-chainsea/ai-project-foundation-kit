@@ -1,8 +1,6 @@
 # U2 · Prompt 卡
 
-只複製貼上，不自由改需求。`<>` 內換成當堂任務給的內容。
-
-## 卡 1 ｜ planner（先計畫，不動手）
+## 卡 1 ｜ planner（先計畫，不改檔）
 
 ```text
 你現在扮演 planner。
@@ -11,87 +9,66 @@
 請先閱讀：
 - AGENTS.md
 - CLAUDE.md
-- data-lab/report.json
-- 這次任務相關的檔案
+- web-lab/src/WarehouseAdmin.jsx
+- web-lab/src/warehouseLogic.js
+- web-lab/src/warehouseData.js
 
 任務：
-我要完成「倉儲營運 Dashboard + LINE OA Flex 推播」中的下一步：<這堂指定任務>
+在倉儲後台 action queue 新增一條規則：
+如果目前有 LINE OA 通路且尚未出貨的訂單，action queue 要多顯示「LINE OA 訂單需要客服確認」。
 
 限制：
-1. 只能修改：<允許檔案清單>
+1. 只能修改 web-lab/src/warehouseLogic.js
 2. 不要新增套件
 3. 不要改 package.json
 4. 不要重構
-5. 如果需要新增檔案，先說明原因，不可直接做
+5. 不要手寫假資料，要從 orderItems 判斷
 
 請只用以下格式回答：
 A. 你準備修改的檔案
 B. 每個檔案各改什麼
-C. 資料合約會如何被使用
+C. 會讀哪些資料欄位
 D. 驗收方式
 E. 可能風險
 F. 哪一步需要人類拍板
 ```
 
-**驗收**：AI 只回 A–F，一個檔都沒動（`git status` 沒有新增變更）。
-
-## 卡 2 ｜ 人審四題（現在可以按同意嗎？）
-
-看完計畫，先自問（都安全才放行）：
-
-```
-1. 可修改檔案對嗎？（在允許清單內）
-2. 有沒有新套件？
-3. 有沒有改 package.json？
-4. 有沒有重構傾向？
-```
-
-## 卡 3 ｜ implementer（照核准的計畫做）
+## 卡 2 ｜ implementer（照核准計畫做）
 
 ```text
 你現在扮演 implementer。
-請依照「剛剛已核准的計畫」實作。
+請依照剛剛已核准的計畫實作。
 
 限制：
-1. 只能修改：<允許檔案清單>
+1. 只能修改 web-lab/src/warehouseLogic.js
 2. 不要新增套件
 3. 不要改 package.json
 4. 不要重構
-5. 如果超出原計畫，先停下來回報，不可直接修改
+5. 如果超出原計畫，先停下來回報
 
 完成後請固定回報：
 A. 實際修改的檔案
 B. 每個檔案改了什麼
-C. 哪裡對應到資料合約
+C. 哪裡讀到 LINE OA 訂單資料
 D. 我現在要怎麼手動驗收
 E. 哪些地方你沒有改
 ```
 
-**驗收**：照它回報的 D 逐項做；`git diff` 只落在允許檔案內。
-
-## 卡 4 ｜ AI 亂改時的救援
+## 卡 3 ｜ reviewer
 
 ```text
-請停止目前修改。
-請列出你這次動過的所有檔案。
-超出允許清單的部分，請說明原因，並等我決定是否還原。
+你現在扮演 reviewer。
+請根據 AGENTS.md、CLAUDE.md、目前需求與 git diff 做檢查。
+不要改檔。
+
+請固定輸出：
+Verdict：PASS 或 BLOCK
+Changed Files：實際改了哪些檔
+Scope Check：是否超出允許範圍
+Package Check：是否修改 package.json / 新增套件
+Data Check：是否從 orderItems 判斷 LINE OA 訂單，不是手寫假資料
+Build Check：我應該跑哪個 build 指令
+Regression Risk：最可能壞掉的地方
+Human Review：人還要親自看什麼
+Next Step：如果 PASS，下一步做什麼；如果 BLOCK，先修什麼
 ```
-
-搭配終端機：`git status` 看範圍 → `git restore <檔>` 還原 → 加更嚴格限制重下。
-
-## 本堂任務可直接填入
-
-```text
-這堂指定任務：
-在營運異常 Dashboard 載入 report.json 後，新增「低庫存推播準備」小區塊。
-區塊要顯示：
-1. 推播主題：低庫存補貨提醒
-2. 推播通道：LINE OA Flex Message
-3. 下一步：到 U3 由人工審核後 mock 送出
-
-允許檔案清單：
-- web-lab/src/Dashboard.jsx
-- web-lab/src/styles.css（只准在 Dashboard 區塊追加樣式）
-```
-
-> 完整版在 `prompts/02-plan-mode.md`（planner）與 `prompts/03-guardrails.md`（implementer 與護欄句型）。

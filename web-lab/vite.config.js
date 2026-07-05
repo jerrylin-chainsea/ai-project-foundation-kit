@@ -55,6 +55,9 @@ function lineFlexApi() {
 // 這是網頁專案的設定檔。你今天不用改它。
 export default defineConfig({
   plugins: [react(), lineFlexApi()],
+  build: {
+    chunkSizeWarningLimit: 900,
+  },
   server: {
     port: 5180,
     open: false,

@@ -1,7 +1,7 @@
 sku,product,stock,reorder_point,unit_price,owner,channel
-SKU-101,耳掛咖啡,18,12,420,Ada,LINE
-SKU-102,海鹽焦糖餅乾,4,10,180,Ben,LINE
-SKU-103,香氛蠟燭,0,5,680,Cara,LINE
-SKU-104,帆布托特包,7,7,520,Dino,Shop
-SKU-105,手作明信片組,35,15,120,Eli,Shop
-SKU-106,冷泡茶包,9,12,260,Ada,LINE
+WH-A01,冷鏈保溫箱 18L,8,12,1680,Ada,B2B Portal
+WH-A07,冷鏈保溫箱 32L,0,6,2380,Ben,B2B Portal
+WH-B12,醫材防潮收納盒,14,10,960,Cara,Enterprise
+WH-C08,批發出貨封箱耗材組,5,16,420,Dino,B2B Portal
+WH-D04,溫控紀錄貼片,26,18,310,Eli,LINE OA
+WH-F03,急件棧板標籤,3,8,180,Fang,Enterprise

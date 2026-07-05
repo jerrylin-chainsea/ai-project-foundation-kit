@@ -1,11 +1,10 @@
 {
-  "order_id": "SO-20260704-018",
-  "customer": "海風選物・王小美",
-  "channel": "LINE",
-  "status": "待出貨",
-  "amount": 2380,
+  "order_id": "SO-20260705-018",
+  "customer": "辰海醫材",
+  "channel": "B2B Portal",
+  "status": "待揀貨",
+  "amount": 9520,
   "items": [
-    { "name": "耳掛咖啡 x12", "qty": 2, "price": 720 },
-    { "name": "海鹽餅乾", "qty": 1, "price": 940 }
+    { "name": "冷鏈保溫箱 32L", "qty": 4, "price": 2380 }
   ]
 }

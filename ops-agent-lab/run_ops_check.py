@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import sys
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -18,6 +19,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INVENTORY = ROOT / "ops-agent-lab" / "inventory_sample.csv"
 DEFAULT_OUTPUT = ROOT / "data-lab" / "report.json"
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
 
 
 @dataclass(frozen=True)

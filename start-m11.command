@@ -1,5 +1,5 @@
 #!/bin/bash
-# M11 一鍵啟動(macOS):雙擊這個檔,就會打開「海風小店 + 營運異常 Dashboard」網頁。
+# M11 一鍵啟動(macOS):雙擊這個檔,就會打開 NOVA WAREHOUSE 練習專案。
 # 第一次使用若被系統擋下:對檔案按右鍵 → 打開。或在終端機執行:bash start-m11.command
 cd "$(dirname "$0")/web-lab" || exit 1
 

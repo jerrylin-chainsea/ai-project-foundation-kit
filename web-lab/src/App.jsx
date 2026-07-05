@@ -1,81 +1,79 @@
 import { useState } from 'react';
-import { shop, products, stats, workflow, tabs, checkpoints } from './data.js';
-import Beach from './Beach.jsx';
+import { brand, courseModules, stats, workflow, tabs, checkpoints } from './data.js';
+import WarehouseScene from './WarehouseScene.jsx';
+import WarehouseAdmin from './WarehouseAdmin.jsx';
+import OrderFlow from './OrderFlow.jsx';
 import Dashboard from './Dashboard.jsx';
 
-// 一張商品卡。畫面上有四張,就是用這個做出來的。
-function ProductCard({ emoji, title, desc, price }) {
+function ModuleCard({ code, title, desc, output }) {
   return (
-    <article className="card">
-      <div className="card-emoji">{emoji}</div>
-      <h3 className="card-title">{title}</h3>
-      <p className="card-desc">{desc}</p>
-      <span className="card-price">{price}</span>
+    <article className="module-card">
+      <span className="module-code">{code}</span>
+      <h3>{title}</h3>
+      <p>{desc}</p>
+      <strong>{output}</strong>
     </article>
   );
 }
 
-// 首頁(海風小店)。重要文字都來自 data.js,新手主要改那裡。
 function HomePage() {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const currentTab = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
 
   return (
-    <div className="page">
-      {/* 上半:會動的海灘主視覺,店招疊在上面 */}
-      <header className="hero">
-        <Beach />
-        <div className="hero-inner">
-          <p className="eyebrow">U11 · 養大你自己的 AI 小店</p>
-          <div className="sign">
-            <span className="sign-emoji">🏖️</span>
-            <h1 className="hero-title">{shop.name}</h1>
-          </div>
-          <p className="hero-tagline">{shop.tagline}</p>
-          <a className="hero-button" href="#outcomes">{shop.cta}</a>
-
-          <section className="stats" aria-label="課程數字">
-            {stats.map((item) => (
-              <div className="stat" key={item.label}>
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </section>
+    <div className="site-page">
+      <header className="site-hero">
+        <WarehouseScene />
+        <div className="hero-overlay" />
+        <div className="site-hero-inner">
+          <p className="eyebrow solid">AI Project Foundation Kit</p>
+          <p className="brand-kicker">{brand.badge}</p>
+          <h1>{brand.name}</h1>
+          <p className="hero-copy">{brand.tagline}</p>
+          <a className="primary-link" href="#course-map">
+            {brand.cta}
+          </a>
         </div>
-        <div className="hero-fade" />
+        <section className="hero-metrics" aria-label="課程與系統數字">
+          {stats.map((item) => (
+            <div key={item.label}>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </section>
       </header>
 
-      <main>
-        <section className="intro">
-          <p>{shop.description}</p>
+      <main className="site-main">
+        <section className="mission-band">
+          <p>{brand.description}</p>
         </section>
 
-        <section className="grid" id="outcomes" aria-label="四堂課完成物">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
+        <section className="module-grid" id="course-map" aria-label="四堂課主線">
+          {courseModules.map((module) => (
+            <ModuleCard key={module.code} {...module} />
           ))}
         </section>
 
-        <section className="panel">
+        <section className="flow-band">
           <div>
-            <p className="eyebrow">fixed flow</p>
-            <h2>每次都照同一條路走</h2>
+            <p className="eyebrow solid">delivery loop</p>
+            <h2>這門課只練一條可交付流程</h2>
           </div>
-          <div className="steps">
+          <div className="flow-steps">
             {workflow.map((step, index) => (
-              <span className="step" key={step}>
-                {index + 1}. {step}
+              <span key={step}>
+                {String(index + 1).padStart(2, '0')} / {step}
               </span>
             ))}
           </div>
         </section>
 
-        <section className="split">
-          <div className="tabs" role="tablist" aria-label="內容切換">
+        <section className="insight-section">
+          <div className="side-tabs" role="tablist" aria-label="技術主軸">
             {tabs.map((tab) => (
               <button
-                className={tab.id === activeTab ? 'tab active' : 'tab'}
+                className={tab.id === activeTab ? 'active' : ''}
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 type="button"
@@ -84,15 +82,16 @@ function HomePage() {
               </button>
             ))}
           </div>
-          <article className="tab-panel">
+          <article className="insight-panel">
+            <span>{currentTab.label}</span>
             <h2>{currentTab.title}</h2>
             <p>{currentTab.body}</p>
           </article>
         </section>
 
-        <section className="checklist">
-          <p className="eyebrow">acceptance</p>
-          <h2>打開首頁,你應該能驗收這三件事</h2>
+        <section className="acceptance-band">
+          <p className="eyebrow solid">acceptance</p>
+          <h2>學生不是交一張漂亮圖，而是交可驗證證據</h2>
           <ul>
             {checkpoints.map((item) => (
               <li key={item}>{item}</li>
@@ -100,35 +99,35 @@ function HomePage() {
           </ul>
         </section>
       </main>
-
-      <footer className="foot">© 2026 {shop.name}・這是教學用的範例網站</footer>
     </div>
   );
 }
 
-// 整個 app:上方兩顆切換鈕,下面是「首頁」或「營運異常 Dashboard」。
+const views = {
+  home: { label: '品牌入口', component: <HomePage /> },
+  admin: { label: '倉儲後台', component: <WarehouseAdmin /> },
+  orders: { label: '訂單可視化', component: <OrderFlow /> },
+  line: { label: 'LINE 推播中心', component: <Dashboard /> },
+};
+
 export default function App() {
-  const [view, setView] = useState('shop');
+  const [view, setView] = useState('home');
 
   return (
     <>
       <nav className="topnav" aria-label="頁面切換">
-        <button
-          className={view === 'shop' ? 'active' : ''}
-          onClick={() => setView('shop')}
-          type="button"
-        >
-          海風小店
-        </button>
-        <button
-          className={view === 'dashboard' ? 'active' : ''}
-          onClick={() => setView('dashboard')}
-          type="button"
-        >
-          營運異常 Dashboard
-        </button>
+        {Object.entries(views).map(([key, item]) => (
+          <button
+            className={view === key ? 'active' : ''}
+            key={key}
+            onClick={() => setView(key)}
+            type="button"
+          >
+            {item.label}
+          </button>
+        ))}
       </nav>
-      {view === 'shop' ? <HomePage /> : <Dashboard />}
+      {views[view].component}
     </>
   );
 }

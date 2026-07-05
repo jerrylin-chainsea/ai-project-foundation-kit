@@ -1,95 +1,106 @@
-# U4 · STEP 04（本堂主線）｜ 親手裝三個 MCP
+# U4 · STEP 04 ｜ MCP / Skills / Astro 技術紀錄
 
-> **MCP = 幫 AI 接上外部工具的「安全的線」**，也像給 AI 一張你公司的門禁卡：在你授權範圍內，它能自己去讀，不用你一直複製貼上。
-> 今天裝三個，每個都同一個節奏：**先看它解決什麼痛 → 一行裝 → 用一次 → `/mcp` 驗收 → 裝不起來的保底**。
-> starter 的 `.mcp.json` 已附前兩台（用 Claude Code 打開資料夾會問你要不要啟用）。
+> **本堂主線**：讓 AI 接上三種外部能力，再把四堂課成果整理成可以給企業看的技術紀錄。
 
-## 前置
+## 1. MCP 是什麼
 
-- 需要 Node 18+（`node -v` 確認）。chrome-devtools MCP 還需要本機有 Chrome。
-- 裝完任何一台，打 `/mcp` 檢查它有沒有出現。
+MCP 可以理解成「讓 AI 使用外部工具的安全接口」。今天只做三台：
 
----
+| MCP | 解決什麼問題 | 本課用法 |
+|---|---|---|
+| Chrome DevTools MCP | AI 能自己看 localhost、console、Network、截圖 | 驗收 NOVA 首頁、訂單可視化、LINE 推播中心 |
+| Context7 MCP | 查最新官方文件，降低過時 API 風險 | 查 Vite / Astro / three.js / LINE SDK 類文件 |
+| Codebase Memory MCP | 讓 AI 建立專案地圖，回答檔案關係 | 查 `WarehouseAdmin.jsx`、`warehouseLogic.js`、`Dashboard.jsx` 的關係 |
 
-## MCP 一 · chrome-devtools（讓 AI 自己驗收畫面）
+## 2. Chrome DevTools MCP 小任務
 
-**痛**：AI 說「改好了」，但你得自己開瀏覽器、自己按 F12 看有沒有錯。
-**接上之後**：AI 自己開 Chrome、看 console、截圖回報。本課那些 localhost 截圖就是它拍的。
-
-```bash
-claude mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
-```
-
-**用一次**：先 `cd web-lab && npm run dev` 跑起 web-lab，再對 AI 說：
-
-```text
-請用 Chrome DevTools 開 http://localhost:5180，列出 console 有沒有錯誤，截一張首頁的圖。
-```
-
-**驗收**：`/mcp` 列出 `chrome-devtools`；AI 真的回報 console 狀況 + 一張截圖。
-**保底**：連不上 → 自己在瀏覽器按 F12 看 console，不擋進度。
-
----
-
-## MCP 二 · context7（給 AI 最新官方文件）
-
-**痛**：套件改版很快，AI 憑舊記憶用過時 API 寫給你，照著做一直報錯。
-**接上之後**：把「最新官方文件」餵給它，它照現在的用法回答。
+先跑：
 
 ```bash
-claude mcp add context7 -- npx -y @upstash/context7-mcp
+cd web-lab
+npm run dev
 ```
 
-**用一次**：問套件用法時，句尾加 `use context7`：
+對 AI 說：
 
 ```text
-用 vite 設定 dev server 埠號，請參考最新官方文件。use context7
+請用 Chrome DevTools MCP 打開 http://localhost:5180。
+檢查：
+1. console 有沒有 error
+2. 品牌入口是否有 canvas
+3. 訂單可視化是否有 canvas
+4. LINE 推播中心是否能看到兩個推播範本
+請回報驗收結果與一張截圖。
 ```
 
-**驗收**：`/mcp` 列出 `context7`；答案附上文件出處。
-**保底**：沒金鑰被限流 → 改看官方網站，或 `/model` 換更強模型。（免費金鑰：context7.com/dashboard）
+保底：裝不起來就人工 F12 + 手動截圖，不擋進度。
 
----
+## 3. Context7 MCP 小任務
 
-## MCP 三 · codebase-memory（讓 AI 記住整個專案）
-
-**痛**：專案一大，問「Dashboard 被誰用？」AI 得一檔一檔翻、常猜錯，改東西還誤傷別的檔。
-**接上之後**：先把專案索引成「地圖」，架構、呼叫關係一問秒答。全本地執行、免 API key。
-
-```bash
-# macOS / Linux
-curl -fsSL https://raw.githubusercontent.com/DeusData/codebase-memory-mcp/main/install.sh | bash
-# Windows PowerShell：下載 install.ps1 後執行（見 repo README）
-```
-（安裝腳本會自動幫 Claude Code 設定好，不用寫進 `.mcp.json`。）
-
-**用一次**：
+問文件時，句尾加：
 
 ```text
-請先索引這個專案，然後告訴我：整體架構長怎樣？Dashboard.jsx 被誰使用？
+use context7
 ```
 
-**驗收**：`/mcp` 列出 `codebase-memory`；架構問題答得出檔案關係。
-**保底**：裝不起來 → 用 `/init` 讓 AI 讀專案，或直接看 README，不擋進度。
-
----
-
-## 收：MCP 權限三問（安全）
-
-MCP 讓 AI 能碰外部資料，很方便，但**權限要給得剛剛好**。裝任何一台之前先問：
-
-1. **它能讀到什麼？**
-2. **它能不能寫入？**（能改的權限要更小心）
-3. **會不會碰到正式資料？**（別讓它直接動真實營運資料庫）
-
-## 結業
+範例：
 
 ```text
-U1 進得了專案
-U2 管得住 AI coding agent
-U3 接得上 LINE OA Flex（Dashboard 按鈕推播）
-U4 放得進 ops agent / Actions，還幫 AI 接上三個 MCP
+Astro 部署到 GitHub Pages 的最新設定方式是什麼？use context7
 ```
 
-> **你不是只會問 AI，你是會管理 AI、還會幫它裝備的人。**
-> AI 做出來不算完成，通過驗收才算完成。
+驗收：答案要說明文件來源，不是憑印象亂答。
+
+## 4. Codebase Memory MCP 小任務
+
+對 AI 說：
+
+```text
+請索引這個專案，回答：
+1. 倉儲後台資料從哪裡來
+2. action queue 的規則在哪裡
+3. LINE 推播中心的 token 為什麼不會進前端
+4. C2 改 warehouseLogic.js 會影響哪些畫面
+```
+
+驗收：回答必須引用到具體檔案，不是泛泛而談。
+
+## 5. Skills 是什麼
+
+Skill 是把一套固定工作法寫成可重用指令。這堂至少要做兩個：
+
+- `/ops-check`：檢查 ops agent、LINE payload、artifact
+- `/ship-check`：交付前檢查 git diff、build、風險與 commit message
+
+如果 Claude Code commands 無法使用，就直接貼 `PROMPT-CARD.md` 裡的等價 prompt。
+
+## 6. 接到 Astro 技術 blog
+
+本專案已經提供 [`../blog-lab/`](../blog-lab/) Astro blog starter。你要新增或改寫一篇文章，主題不是「我做了一個 AI 專案」，而是：
+
+```text
+我如何用 AI coding agent 接手並交付一個 NOVA WAREHOUSE 倉儲系統
+```
+
+文章至少包含：
+
+1. 問題拆解：企業題目如何拆成頁面、資料、規則、驗收。
+2. 系統截圖：品牌入口、倉儲後台、訂單可視化、LINE 推播中心。
+3. 技術說明：React component、CSS 狀態、API payload、token 邊界。
+4. AI 工作流：AGENTS.md、CLAUDE.md、Plan Mode、reviewer。
+5. 驗收證據：build、mock 推播、DevTools console/Network、diff。
+6. 下一步：如果給企業實戰題，你會怎麼估範圍與風險。
+
+Blog 可以放連結回你的倉儲系統 demo，或放截圖與 GitHub repo 連結。
+
+→ 下一步：`STEP-05-blog-deploy.md`，本機預覽 blog，設定 GitHub Pages，部署公開網址。
+
+## 7. MCP 權限三問
+
+裝任何 MCP 前都先問：
+
+1. 它能讀到什麼？
+2. 它能不能寫入？
+3. 會不會碰到正式資料或 token？
+
+收束：MCP 和 skills 不是炫技，而是讓你能更穩定地讀專案、查文件、驗收畫面、整理成果。

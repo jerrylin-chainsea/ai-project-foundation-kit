@@ -1,45 +1,54 @@
-# U1 · STEP 02 ｜ 第一次修改、第一次 Git 快照
+# U1 · STEP 02 ｜ 第一次可見修改、第一次 Git 快照
 
-> 目標：親手改一個看得見的字，然後把這次修改「存檔」進 Git。
-> 這一步不需要懂程式 —— 你只是在改文字。
+> 目標：只改一個安全資料檔，看到熱更新，然後用 Git 留下一次乾淨快照。
 
-## 1. 改一個字
+## 1. 開一個練習分支
+
+```bash
+git status
+git switch -c feature/u1-first-edit
+```
+
+如果 `git switch -c` 失敗，通常代表你已經在同名分支；舉手或改用老師指定的新分支名。
+
+## 2. 改一個看得見的字
 
 打開 `web-lab/src/data.js`，找到：
 
 ```js
-name: '海風小店',
+name: 'NOVA WAREHOUSE',
 ```
 
-把 `海風小店` 改成**你自己的店名**，存檔（`Ctrl+S` / `Cmd+S`）。
+把它改成老師指定的版本，例如：
 
-**你應該看到**：瀏覽器**不用重新整理**，招牌自動變成你的店名（這叫熱更新）。
+```js
+name: 'NOVA WAREHOUSE｜Jerry',
+```
 
-- 沒變？→ 確認真的存檔了（分頁上的圓點消失）、`npm run dev` 還在跑。
+存檔後，瀏覽器不用重新整理，首頁 H1 應該會熱更新。
 
-## 2. 第一次 Git 快照
-
-在 Terminal 依序打（一行一行來）：
+## 3. 看 diff，不要盲目 commit
 
 ```bash
 git status
-git diff
-git add .
-git commit -m "把店名改成我的店"
+git diff -- web-lab/src/data.js
 ```
 
-**每一步你應該看到**：
+**你應該看到**：只有 `web-lab/src/data.js` 一小段文字改動。沒有動到 `WarehouseScene.jsx`、`package.json`、`Dashboard.jsx`。
 
-| 指令 | 你應該看到 |
-|---|---|
-| `git status` | 紅字列出 `web-lab/src/data.js`（只有它被改） |
-| `git diff` | 一行紅（舊店名）、一行綠（新店名），**只有這一處** |
-| `git commit` | 出現一筆 commit 訊息 |
+## 4. commit
 
-## 3. 這一步的完成定義
+```bash
+git add web-lab/src/data.js
+git commit -m "練習修改 NOVA 首頁標題"
+git status
+```
 
-- ✅ 畫面：招牌是你的店名
-- ✅ diff：只動了 `data.js` 一行
-- ✅ commit：`git status` 變乾淨
+最後 `git status` 應該乾淨。
 
-> **收束一句**：工具不可怕，它是「專案的入口」。你已經會打開、跑、改、存 —— 之後每堂課的結尾，都是同一套「看 diff → commit」。
+## 5. 這一步的完成定義
+
+- 畫面：首頁 H1 有變
+- diff：只動 `web-lab/src/data.js`
+- commit：有一筆 commit，`git status` 乾淨
+- human review：你親眼看過畫面與 diff，不是只相信 AI 說完成

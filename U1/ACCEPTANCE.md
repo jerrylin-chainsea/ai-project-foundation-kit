@@ -1,24 +1,22 @@
 # U1 · 驗收單
 
-做完打勾。全部打勾，這堂就完成了。
-
 ## 完成物
 
-- [ ] 一鍵啟動成功，瀏覽器看到會動的「海風小店」
-- [ ] 看過「營運異常 Dashboard」，說得出這門課最後要交出什麼
+- [ ] 一鍵啟動成功，瀏覽器看到 **NOVA WAREHOUSE** 與倉儲 3D 場景
+- [ ] 看過四個頁面：品牌入口、倉儲後台、訂單可視化、LINE 推播中心
 - [ ] 指得出 VS Code 的 Explorer / Editor / Terminal
-- [ ] 改過 `web-lab/src/data.js` 的店名，畫面熱更新
-- [ ] `git diff` 只有 `data.js` 一行變更
+- [ ] 說得出 `AGENTS.md` 和 `CLAUDE.md` 是 AI 工作守則
+- [ ] 用 Codex 或 Claude Code 做過「先讀，不要改」專案摘要
+- [ ] 改過 `web-lab/src/data.js` 的 `brand.name`，畫面熱更新
+- [ ] `git diff` 只動 `web-lab/src/data.js`
 - [ ] 完成第一次 commit，`git status` 乾淨
 
 ## DoD 對照
 
 | 驗收面向 | 這堂的標準 |
 |---|---|
-| 畫面 | 招牌是你的店名 |
-| 輸出 | —（今天沒有終端機輸出要驗） |
-| diff | 只動 `data.js` 一行 |
-| build | —（U3 之後才驗 build） |
+| 畫面 | NOVA 首頁正常，H1 能熱更新 |
+| 輸出 | AI 專案摘要、`git status` |
+| diff | 只動 `data.js` |
+| build | 這堂不強制 build |
 | human review | 你親眼看過畫面與 diff |
-
-> AI 做出來不算完成，通過驗收才算完成。
