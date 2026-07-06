@@ -45,10 +45,12 @@
 
 ```text
 U1 進得了專案
-U2 管得住 AI coding agent
-U3 接得上 LINE OA Flex
-U4 放得進 ops agent / GitHub Actions / Skill / MCP
+U2 管得住 AI coding agent(Agentic Engineering：控制輸出)
+U3 接得上 LINE OA Flex(Agentic Engineering：控制行動)
+U4 放得進 ops agent / GitHub Actions / Skill / MCP(Agentic Engineering：擴充能力)
 ```
+
+這四堂課合起來，就是 **Agentic Engineering**（設計「會做事」的 AI 系統）的完整入門。
 
 > **你不是只會問 AI，你是會管理 AI 做事的人。**
 > AI 做出來不算完成，通過驗收才算完成。
