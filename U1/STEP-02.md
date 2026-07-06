@@ -18,13 +18,13 @@ git switch -c feature/u1-first-edit
 打開 `web-lab/src/data.js`，找到：
 
 ```js
-name: 'NOVA WAREHOUSE',
+name: 'BOBA TIDE｜Jerry',
 ```
 
-把它改成老師指定的版本，例如：
+把 `｜Jerry` 換成你自己的名字，例如：
 
 ```js
-name: 'NOVA WAREHOUSE｜Jerry',
+name: 'BOBA TIDE｜小明',
 ```
 
 存檔後，瀏覽器不用重新整理，首頁 H1 應該會熱更新。
@@ -36,13 +36,13 @@ git status
 git diff -- web-lab/src/data.js
 ```
 
-**你應該看到**：只有 `web-lab/src/data.js` 一小段文字改動。沒有動到 `WarehouseScene.jsx`、`package.json`、`Dashboard.jsx`。
+**你應該看到**：只有 `web-lab/src/data.js` 一小段文字改動。沒有動到 `uiEffects.jsx`、`package.json`、`Dashboard.jsx`。
 
 ## 4. commit
 
 ```bash
 git add web-lab/src/data.js
-git commit -m "練習修改 NOVA 首頁標題"
+git commit -m "練習修改 BOBA TIDE 首頁標題"
 git status
 ```
 

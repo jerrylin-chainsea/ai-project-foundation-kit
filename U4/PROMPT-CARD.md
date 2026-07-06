@@ -81,7 +81,7 @@ Next Step：如果 PASS，下一步做什麼；如果 BLOCK，先修什麼
 
 ```text
 請幫我整理一篇 Astro blog 技術文章大綱。
-主題：我如何用 AI coding agent 接手並交付一個 NOVA WAREHOUSE 倉儲系統。
+主題：我如何用 AI coding agent 接手並交付一個 BOBA TIDE 手搖飲控制台系統。
 
 請不要寫空泛心得，要包含：
 1. 企業題目拆解

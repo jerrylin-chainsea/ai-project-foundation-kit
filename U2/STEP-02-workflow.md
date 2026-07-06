@@ -4,15 +4,15 @@
 
 ## 1. 今日任務
 
-在「倉儲後台」的 action queue 裡新增一條規則：
+在「備料控制台」的 action queue 裡新增一條規則：
 
-> 如果目前有 **LINE OA 通路且尚未出貨** 的訂單，action queue 要多顯示一條「客服需要確認 LINE OA 訂單」。
+> 如果目前有 **LINE OA 通路且尚未取餐** 的訂單，action queue 要多顯示一條「LINE OA 訂單需要主動聯絡客人」。
 
 建議顯示內容：
 
 ```text
-title: LINE OA 訂單需要客服確認
-detail: 目前有 N 筆 LINE OA 訂單尚未出貨，請先確認收件人與 ETA
+title: LINE OA 訂單需要主動聯絡客人
+detail: 目前有 N 筆 LINE OA 訂單尚未取餐，請先確認客人與 ETA
 level: warning
 ```
 
@@ -35,7 +35,7 @@ level: warning
 
 ```bash
 git status
-git diff -- web-lab/src/warehouseLogic.js
+git diff -- web-lab/src/shopLogic.js
 cd web-lab
 npm run build
 ```
@@ -44,14 +44,14 @@ npm run build
 
 ```js
 const pendingLineOrders = orderItems.filter(
-  (order) => order.channel === 'LINE OA' && order.status !== '已出貨',
+  (order) => order.channel === 'LINE OA' && order.status !== '已取餐',
 );
 
 if (pendingLineOrders.length > 0) {
   actions.push({
     level: 'warning',
-    title: 'LINE OA 訂單需要客服確認',
-    detail: `目前有 ${pendingLineOrders.length} 筆 LINE OA 訂單尚未出貨，請先確認收件人與 ETA`,
+    title: 'LINE OA 訂單需要主動聯絡客人',
+    detail: `目前有 ${pendingLineOrders.length} 筆 LINE OA 訂單尚未取餐，請先確認客人與 ETA`,
   });
 }
 ```
@@ -60,8 +60,8 @@ if (pendingLineOrders.length > 0) {
 
 畫面驗收：
 
-1. 回到「倉儲後台」。
-2. action queue 裡看到「LINE OA 訂單需要客服確認」。
+1. 回到「備料控制台」。
+2. action queue 裡看到「LINE OA 訂單需要主動聯絡客人」。
 3. 原本的低庫存與缺料訂單提醒仍在。
 
 ## 4. reviewer
@@ -70,16 +70,16 @@ if (pendingLineOrders.length > 0) {
 
 人審重點：
 
-- diff 是否只動 `warehouseLogic.js`
+- diff 是否只動 `shopLogic.js`
 - 新規則是否讀 `orderItems`，不是手寫假資料
 - build 是否通過
-- C3 的「訂單可視化」與「LINE 推播中心」沒有被改壞
+- C3 的「訂單看板」與「LINE 推播中心」沒有被改壞
 
 ## 5. commit
 
 ```bash
-git add web-lab/src/warehouseLogic.js
-git commit -m "新增 LINE OA 訂單客服確認規則"
+git add web-lab/src/shopLogic.js
+git commit -m "新增 LINE OA 訂單主動聯絡客人規則"
 ```
 
 收束：AI 做出來不算完成，畫面、diff、build、reviewer 都過才算。

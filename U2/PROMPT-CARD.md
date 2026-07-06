@@ -9,16 +9,16 @@
 請先閱讀：
 - AGENTS.md
 - CLAUDE.md
-- web-lab/src/WarehouseAdmin.jsx
-- web-lab/src/warehouseLogic.js
-- web-lab/src/warehouseData.js
+- web-lab/src/ShopConsole.jsx
+- web-lab/src/shopLogic.js
+- web-lab/src/shopData.js
 
 任務：
-在倉儲後台 action queue 新增一條規則：
-如果目前有 LINE OA 通路且尚未出貨的訂單，action queue 要多顯示「LINE OA 訂單需要客服確認」。
+在備料控制台 action queue 新增一條規則：
+如果目前有 LINE OA 通路且尚未取餐的訂單，action queue 要多顯示「LINE OA 訂單需要主動聯絡客人」。
 
 限制：
-1. 只能修改 web-lab/src/warehouseLogic.js
+1. 只能修改 web-lab/src/shopLogic.js
 2. 不要新增套件
 3. 不要改 package.json
 4. 不要重構
@@ -40,7 +40,7 @@ F. 哪一步需要人類拍板
 請依照剛剛已核准的計畫實作。
 
 限制：
-1. 只能修改 web-lab/src/warehouseLogic.js
+1. 只能修改 web-lab/src/shopLogic.js
 2. 不要新增套件
 3. 不要改 package.json
 4. 不要重構

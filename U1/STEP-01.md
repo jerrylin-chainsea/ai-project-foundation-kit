@@ -11,7 +11,7 @@
 - Windows：雙擊 `start-m11.bat`
 - macOS：雙擊 `start-m11.command`
 
-**你應該看到**：瀏覽器打開 <http://localhost:5180>，首頁是 **NOVA WAREHOUSE**，背景有會動的倉儲 3D 場景。
+**你應該看到**：瀏覽器打開 <http://localhost:5180>，首頁是 **BOBA TIDE**，背景有會動的漸層光暈效果。
 
 如果 5180 被占用，Vite 會在終端機顯示另一個網址。以終端機顯示的網址為準。
 
@@ -32,8 +32,8 @@ npm run dev
 | 頁面 | 今天先看什麼 |
 |---|---|
 | 品牌入口 | starter repo 本身已經是高質感企業案例，不是空白練習頁 |
-| 倉儲後台 | C2 會用 AGENTS.md / CLAUDE.md / Plan Mode 做小範圍修改 |
-| 訂單可視化 | C3 會看資料如何驅動畫面與 three.js 訂單流動畫 |
+| 備料控制台 | C2 會用 AGENTS.md / CLAUDE.md / Plan Mode 做小範圍修改 |
+| 訂單看板 | C3 會看資料如何驅動畫面與 three.js 訂單狀態動畫 |
 | LINE 推播中心 | C3 會走完 Flex 預覽、人工審核、mock 推播 |
 
 今天不用改後三個頁面，只要知道它們是後面三堂會一路接上的主線。
@@ -51,7 +51,7 @@ npm run dev
 | 檔案 | 它管什麼 |
 |---|---|
 | `web-lab/src/data.js` | 首頁文案與四堂課卡片；C1 安全修改範圍 |
-| `web-lab/src/WarehouseScene.jsx` | 首頁 3D 倉儲動畫；今天不改 |
+| `web-lab/src/uiEffects.jsx` | 首頁動態光暈背景效果；今天不改 |
 | `AGENTS.md` | AI coding agent 的工作守則 |
 | `CLAUDE.md` | Claude Code 補充守則 |
 | `START-HERE.md` | 整門課地圖 |

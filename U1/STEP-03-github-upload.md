@@ -13,7 +13,7 @@ git log --oneline -5
 你應該已經有兩種 commit：
 
 1. `初始化 M11 專案包`
-2. `練習修改 NOVA 首頁標題`
+2. `練習修改 BOBA TIDE 首頁標題`
 
 如果 `git status` 不乾淨，先不要上傳，請先看清楚 diff。
 

@@ -54,7 +54,7 @@ behavior（直接沿用卡 1 planner + 卡 3 reviewer）：
 ## 5. 實際呼叫一次
 
 ```text
-@agent-beginner-ai-project-workflow 請檢視 web-lab，告訴我倉儲後台的資料從哪裡來。
+@agent-beginner-ai-project-workflow 請檢視 web-lab，告訴我備料控制台的資料從哪裡來。
 ```
 
 **可以交給 agent**：讀專案、整理檔案用途、檢查 prompt 是否符合 U2 範圍。

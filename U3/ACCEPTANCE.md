@@ -1,9 +1,9 @@
 # U3 · 驗收單
 
-## 訂單可視化
+## 訂單看板
 
-- [ ] 看過「訂單可視化」頁的 three.js 訂單流動畫
-- [ ] 說得出 `OrderFlow.jsx` 是 component，`styles.css` 管狀態樣式
+- [ ] 看過「訂單看板」頁的 three.js 訂單流動畫
+- [ ] 說得出 `OrderBoard.jsx` 是 component，`styles.css` 管狀態樣式
 - [ ] 說得出資料欄位如何影響畫面：status、zone、amount、eta
 
 ## LINE Flex 主線
@@ -32,7 +32,7 @@
 
 | 驗收面向 | 這堂的標準 |
 |---|---|
-| 畫面 | 訂單可視化正常、Flex 預覽正常、擋牌能出現也能消失 |
+| 畫面 | 訂單看板正常、Flex 預覽正常、擋牌能出現也能消失 |
 | 輸出 | `[mock]`、contract error、ReAct 格式、Network request |
 | diff | 只動允許檔案 |
 | build | `npm run build` 通過 |

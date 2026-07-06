@@ -3,10 +3,10 @@
 ## 完成物
 
 - [ ] 說得出 `AGENTS.md` / `CLAUDE.md` 是 AI 工作守則
-- [ ] 說得出本堂允許檔案，且知道通常只改 `warehouseLogic.js`
+- [ ] 說得出本堂允許檔案，且知道通常只改 `shopLogic.js`
 - [ ] 用 planner 卡拿到 A-F 計畫，期間 `git status` 沒有新變更
 - [ ] 人審四題問過一輪，才放行 implementer
-- [ ] action queue 出現「LINE OA 訂單需要客服確認」
+- [ ] action queue 出現「LINE OA 訂單需要主動聯絡客人」
 - [ ] 新規則是從 `orderItems` 判斷，不是寫死文字假資料
 - [ ] 原本低庫存與缺料訂單提醒仍正常
 - [ ] `npm run build` 通過
@@ -18,9 +18,9 @@
 
 | 驗收面向 | 這堂的標準 |
 |---|---|
-| 畫面 | 倉儲後台 action queue 多一條 LINE OA 客服確認 |
+| 畫面 | 備料控制台 action queue 多一條 LINE OA 主動聯絡客人提醒 |
 | 輸出 | planner A-F、implementer A-E、reviewer Pass/Block |
-| diff | 只動 `warehouseLogic.js` 或核准過的允許檔案 |
+| diff | 只動 `shopLogic.js` 或核准過的允許檔案 |
 | build | `cd web-lab && npm run build` 通過 |
 | human review | 人親自看過計畫、畫面與 diff |
 

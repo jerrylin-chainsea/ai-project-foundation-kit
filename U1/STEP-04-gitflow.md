@@ -64,7 +64,7 @@ git show --stat --oneline HEAD
 你應該看到最新 commit 訊息類似：
 
 ```text
-練習修改 NOVA 首頁標題
+練習修改 BOBA TIDE 首頁標題
 ```
 
 而且 `show --stat` 只出現：

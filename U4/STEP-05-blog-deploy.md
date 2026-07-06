@@ -1,6 +1,6 @@
 # U4 · STEP 05 ｜ Astro Blog 與 GitHub Pages 部署
 
-> **這一步完成物**：一篇可以公開展示的 NOVA WAREHOUSE 技術紀錄，以及一個 GitHub Pages 公開網址。
+> **這一步完成物**：一篇可以公開展示的 BOBA TIDE 技術紀錄，以及一個 GitHub Pages 公開網址。
 
 ## 1. 打開 blog-lab
 
@@ -15,6 +15,8 @@ npm run dev
 - `NOVA WAREHOUSE 技術紀錄` 首頁
 - 一篇 `我如何用 AI coding agent 接手並交付 NOVA WAREHOUSE 倉儲系統` 文章
 
+這是舊主題的草稿，不是最終稿——你的專案已經改名叫 BOBA TIDE，這一步要把文章整篇改寫成你自己做的 BOBA TIDE 系統，不是保留倉儲的內容。
+
 ## 2. 改文章，不改成空泛心得
 
 打開：
@@ -23,10 +25,12 @@ npm run dev
 blog-lab/src/content/blog/nova-warehouse-case.md
 ```
 
+（檔名還是舊的沒關係，這堂不要求連檔名一起改；重點是內文要換成 BOBA TIDE。）
+
 文章至少要補上：
 
 1. 企業題目如何拆成資料、規則、畫面、驗收。
-2. C2 倉儲後台改了什麼規則。
+2. C2 備料控制台改了什麼規則。
 3. C3 API flow：Browser → `/api/send-line-flex` → 本機後端 → mock result。
 4. token / env var 為什麼不進前端。
 5. DevTools Network、mock result、build、git diff 的驗收證據。
@@ -45,14 +49,14 @@ blog-lab/public/images/
 文章裡這樣引用：
 
 ```md
-![倉儲後台 action queue](/images/warehouse-admin.png)
+![備料控制台 action queue](/images/shop-console.png)
 ```
 
 建議至少放：
 
-- NOVA 首頁
-- 倉儲後台 action queue
-- 訂單可視化
+- BOBA TIDE 首頁
+- 備料控制台 action queue
+- 訂單看板
 - LINE Flex preview
 - DevTools Network 的 `/api/send-line-flex`
 - `npm run build` 成功
