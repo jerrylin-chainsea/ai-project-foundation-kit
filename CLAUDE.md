@@ -4,7 +4,7 @@
 
 ## 這個專案
 
-教學用「NOVA WAREHOUSE 智慧倉儲控制塔 + LINE OA Flex 推播 + ops agent 自動化」。
+教學用「BOBA TIDE 手搖飲備料控制台 + LINE OA Flex 推播 + ops agent 自動化」。
 啟動：`cd web-lab && npm run dev`（port 5180）。build：`npm run build`。
 推播兩條路，走同一條後端 guard 階梯：
 - Dashboard「推播 LINE Flex」按鈕 → 打本機後端 `web-lab/vite.config.js` 的 `/api/send-line-flex`（dev-only）→ `line-lab/sendLineAlert.js` 的 `handlePush`。
@@ -28,7 +28,7 @@ Blog：`cd blog-lab && npm run dev` 預覽 Astro 技術紀錄，`npm run build` 
 
 - 不新增套件、不改 `package.json`、不重構。
 - token 不進程式碼、不進前端、不 commit；前端永遠不直接打 `api.line.me`（由本機後端代打）。
-- `web-lab/src/warehouseData.js` 是倉儲後台與訂單可視化的教學資料；U2 通常改 `warehouseLogic.js`，不是直接亂改資料。
+- `web-lab/src/shopData.js` 是備料控制台與訂單看板的教學資料；U2 通常改 `shopLogic.js`，不是直接亂改資料。
 - `data-lab/report.json`（營運異常）與 `data-lab/orders.json`（LINE 訂單範本）各是一份資料合約；`risk_level` 只能是 `low / medium / high`。
 - GitHub Actions 主線只產生 artifact，不在 CI 裡真送 LINE。
 - Blog 主線只改 `blog-lab/src/content/blog/**` 與 `blog-lab/public/images/**`；不要讓 AI 為了寫文章改 Astro 套件或部署設定。

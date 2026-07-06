@@ -1,10 +1,10 @@
 {
-  "order_id": "SO-20260705-018",
-  "customer": "辰海醫材",
-  "channel": "B2B Portal",
-  "status": "待揀貨",
-  "amount": 9520,
+  "order_id": "BT-20260706-018",
+  "customer": "陳同學",
+  "channel": "外送平台",
+  "status": "待製作",
+  "amount": 130,
   "items": [
-    { "name": "冷鏈保溫箱 32L", "qty": 4, "price": 2380 }
+    { "name": "黑糖珍珠鮮奶", "qty": 2, "price": 65 }
   ]
 }

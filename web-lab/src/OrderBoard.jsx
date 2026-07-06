@@ -1,25 +1,26 @@
-import { orders } from './warehouseData.js';
-import { formatCurrency } from './warehouseLogic.js';
-import OrderFlowCanvas from './OrderFlowCanvas.jsx';
+import { drinkOrders } from './shopData.js';
+import { formatCurrency } from './shopLogic.js';
+import OrderBoardCanvas from './OrderBoardCanvas.jsx';
+import { TiltedCard, GlareHover } from './uiEffects.jsx';
 
 const statusStep = {
-  待揀貨: 1,
-  已揀貨: 2,
-  待出貨: 3,
+  待製作: 1,
+  製作中: 2,
+  待取餐: 3,
   缺料等待: 0,
-  已出貨: 4,
+  已取餐: 4,
 };
 
 function OrderLane({ order }) {
   const step = statusStep[order.status] ?? 0;
-  return (
+  const card = (
     <article className={`order-lane priority-${order.priority}`}>
       <div className="order-lane-head">
         <strong>{order.id}</strong>
         <span>{order.customer}</span>
       </div>
       <div className="flow-track" aria-label={`${order.id} fulfillment progress`}>
-        {['接單', '揀貨', '覆核', '出貨'].map((label, index) => (
+        {['接單', '製作', '搖製', '取餐'].map((label, index) => (
           <div className={`flow-dot ${index <= step ? 'done' : ''}`} key={label}>
             <span>{label}</span>
           </div>
@@ -33,19 +34,27 @@ function OrderLane({ order }) {
       </div>
     </article>
   );
+
+  return order.priority === 'high' ? (
+    <GlareHover className="order-lane-wrap">
+      <TiltedCard className="order-lane-tilt">{card}</TiltedCard>
+    </GlareHover>
+  ) : (
+    <TiltedCard className="order-lane-tilt">{card}</TiltedCard>
+  );
 }
 
-export default function OrderFlow() {
-  const blocked = orders.filter((order) => order.status === '缺料等待' || order.priority === 'high');
+export default function OrderBoard() {
+  const blocked = drinkOrders.filter((order) => order.status === '缺料等待' || order.priority === 'high');
 
   return (
     <main className="flow-shell">
       <header className="flow-hero">
         <div>
           <p className="eyebrow solid">C3 · API / webhook / token / visual state</p>
-          <h2>訂單狀態可視化</h2>
+          <h2>訂單狀態看板</h2>
           <p>
-            這裡把訂單拆成「狀態、金額、區域、ETA」四種可以被前端與 LINE Flex 共用的資訊。
+            這裡把訂單拆成「狀態、金額、備料區、ETA」四種可以被前端與 LINE Flex 共用的資訊。
             課堂會從這裡連到 `/api/send-line-flex`，理解前端送 payload、後端帶 token 的邊界。
           </p>
         </div>
@@ -57,19 +66,19 @@ export default function OrderFlow() {
       </header>
 
       <section className="flow-visual" aria-label="訂單流動動畫">
-        <OrderFlowCanvas />
+        <OrderBoardCanvas />
         <div>
           <p className="eyebrow solid">live map</p>
           <h3>把訂單狀態變成看得懂的路徑</h3>
           <p>
-            紅色箱代表缺料等待，藍色/綠色/橘色箱代表不同履約狀態。
+            紅色杯代表缺料等待，藍色/綠色/橘色杯代表不同履約狀態。
             C3 可以用這個畫面講清楚資料如何驅動畫面，而不是只看靜態表格。
           </p>
         </div>
       </section>
 
       <section className="flow-board" aria-label="訂單流程板">
-        {orders.map((order) => (
+        {drinkOrders.map((order) => (
           <OrderLane order={order} key={order.id} />
         ))}
       </section>

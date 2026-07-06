@@ -1,7 +1,7 @@
 sku,product,stock,reorder_point,unit_price,owner,channel
-WH-A01,冷鏈保溫箱 18L,8,12,1680,Ada,B2B Portal
-WH-A07,冷鏈保溫箱 32L,0,6,2380,Ben,B2B Portal
-WH-B12,醫材防潮收納盒,14,10,960,Cara,Enterprise
-WH-C08,批發出貨封箱耗材組,5,16,420,Dino,B2B Portal
-WH-D04,溫控紀錄貼片,26,18,310,Eli,LINE OA
-WH-F03,急件棧板標籤,3,8,180,Fang,Enterprise
+BT-P01,黑糖珍珠,8,12,35,Ada,LINE OA
+BT-P02,波霸,0,6,38,Ben,LINE OA
+BT-C01,外帶杯 700ml,40,30,3,Cara,外送平台
+BT-C02,封膜膜片,5,16,1,Dino,外送平台
+BT-S01,鮮奶,26,18,55,Eli,LINE OA
+BT-S02,無糖綠茶原液,3,8,40,Fang,外送平台

@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { orders } from './warehouseData.js';
+import { drinkOrders } from './shopData.js';
 
 const statusColor = {
-  待揀貨: '#38bdf8',
-  已揀貨: '#22c55e',
-  待出貨: '#f59e0b',
+  待製作: '#38bdf8',
+  製作中: '#22c55e',
+  待取餐: '#f59e0b',
   缺料等待: '#ef4444',
-  已出貨: '#94a3b8',
+  已取餐: '#94a3b8',
 };
 
 function makeTextSprite(text, color = '#0f172a') {
@@ -28,7 +28,7 @@ function makeTextSprite(text, color = '#0f172a') {
   return sprite;
 }
 
-export default function OrderFlowCanvas() {
+export default function OrderBoardCanvas() {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function OrderFlowCanvas() {
     scene.add(floor);
 
     const laneMaterial = new THREE.MeshStandardMaterial({ color: '#d8e2ea', roughness: 0.7 });
-    const stations = ['接單', '揀貨', '覆核', '出貨'];
+    const stations = ['接單', '製作', '搖製', '取餐'];
     const stationX = [-8, -2.7, 2.7, 8];
     stationX.forEach((x, index) => {
       const plate = new THREE.Mesh(new THREE.BoxGeometry(3.1, 0.08, 5.4), laneMaterial);
@@ -81,11 +81,11 @@ export default function OrderFlowCanvas() {
       scene.add(label);
     });
 
-    const parcels = orders.map((order, index) => {
+    const cups = drinkOrders.map((order, index) => {
       const color = statusColor[order.status] || '#64748b';
       const group = new THREE.Group();
       const body = new THREE.Mesh(
-        new THREE.BoxGeometry(1.5, 0.8, 1.15),
+        new THREE.CylinderGeometry(0.55, 0.45, 0.9, 16),
         new THREE.MeshStandardMaterial({ color, roughness: 0.52, metalness: 0.04 }),
       );
       body.castShadow = true;
@@ -110,7 +110,7 @@ export default function OrderFlowCanvas() {
 
     function frame() {
       const t = clock.elapsedTime;
-      parcels.forEach(({ group, order, offset }, index) => {
+      cups.forEach(({ group, order, offset }, index) => {
         const blocked = order.status === '缺料等待';
         const progress = blocked ? 0.08 : ((Math.sin(t * 0.42 + offset) + 1) / 2) * 0.9;
         group.position.x = -8 + progress * 16;

@@ -57,7 +57,7 @@
                 },
                 {
                   "type": "text",
-                  "text": "NT$31,680",
+                  "text": "NT$579",
                   "color": "#111111",
                   "size": "sm",
                   "flex": 4,
@@ -101,7 +101,7 @@
                 },
                 {
                   "type": "text",
-                  "text": "冷鏈保溫箱 32L",
+                  "text": "波霸",
                   "color": "#111111",
                   "size": "sm",
                   "flex": 4,
@@ -123,7 +123,7 @@
                 },
                 {
                   "type": "text",
-                  "text": "B2B Portal",
+                  "text": "LINE OA",
                   "color": "#111111",
                   "size": "sm",
                   "flex": 4,
@@ -143,28 +143,28 @@
             },
             {
               "type": "text",
-              "text": "1. 補貨 冷鏈保溫箱 32L: 目前庫存 0, 安全量 6, 請 Ben 先確認採購與到貨日。",
+              "text": "1. 補貨 波霸: 目前庫存 0, 安全量 6, 請 Ben 先確認採購與到貨日。",
               "size": "sm",
               "color": "#111111",
               "wrap": true
             },
             {
               "type": "text",
-              "text": "2. 補貨 批發出貨封箱耗材組: 目前庫存 5, 安全量 16, 請 Dino 先確認採購與到貨日。",
+              "text": "2. 補貨 無糖綠茶原液: 目前庫存 3, 安全量 8, 請 Fang 先確認採購與到貨日。",
               "size": "sm",
               "color": "#111111",
               "wrap": true
             },
             {
               "type": "text",
-              "text": "3. 補貨 急件棧板標籤: 目前庫存 3, 安全量 8, 請 Fang 先確認採購與到貨日。",
+              "text": "3. 補貨 黑糖珍珠: 目前庫存 8, 安全量 12, 請 Ada 先確認採購與到貨日。",
               "size": "sm",
               "color": "#111111",
               "wrap": true
             },
             {
               "type": "text",
-              "text": "4. 送出 LINE Flex 通知前，請主管人工確認補貨數量、ETA 與收件對象。",
+              "text": "4. 送出 LINE Flex 通知前，請主管人工確認補貨數量與收件對象。",
               "size": "sm",
               "color": "#111111",
               "wrap": true

@@ -83,3 +83,5 @@ git commit -m "新增 LINE OA 訂單客服確認規則"
 ```
 
 收束：AI 做出來不算完成，畫面、diff、build、reviewer 都過才算。
+
+→ C2 主線到這裡就完成了，可以直接去 [`ACCEPTANCE.md`](./ACCEPTANCE.md) 對照驗收。時間還有的話，[`STEP-03-subagent.md`](./STEP-03-subagent.md) 是加映（把 planner/reviewer prompt 存成 sub-agent + 裝 Claude HUD），跳過也不影響過關。

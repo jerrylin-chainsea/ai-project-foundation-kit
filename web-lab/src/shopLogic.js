@@ -1,35 +1,35 @@
-export function classifyInventoryItem(item) {
+export function classifyIngredient(item) {
   if (item.stock <= 0) return 'out';
   if (item.stock <= item.reorderPoint) return 'low';
   return 'healthy';
 }
 
-export function getInventoryShortage(item) {
+export function getIngredientShortage(item) {
   return Math.max(item.reorderPoint - item.stock, 0);
 }
 
-export function getLowStockItems(items) {
+export function getLowStockIngredients(items) {
   return items
-    .filter((item) => classifyInventoryItem(item) !== 'healthy')
+    .filter((item) => classifyIngredient(item) !== 'healthy')
     .map((item) => ({
       ...item,
-      status: classifyInventoryItem(item),
-      shortage: getInventoryShortage(item),
-      exposure: getInventoryShortage(item) * item.unitPrice,
+      status: classifyIngredient(item),
+      shortage: getIngredientShortage(item),
+      exposure: getIngredientShortage(item) * item.unitPrice,
     }))
     .sort((a, b) => b.exposure - a.exposure);
 }
 
-export function getBlockedOrders(items) {
-  return items
+export function getBlockedOrders(orderItems) {
+  return orderItems
     .filter((order) => order.status === '缺料等待' || order.priority === 'high')
     .sort((a, b) => b.amount - a.amount);
 }
 
-export function summarizeWarehouse(items, orderItems) {
-  const lowStockItems = getLowStockItems(items);
+export function summarizeShop(items, orderItems) {
+  const lowStockItems = getLowStockIngredients(items);
   const blockedOrders = getBlockedOrders(orderItems);
-  const openOrders = orderItems.filter((order) => order.status !== '已出貨');
+  const openOrders = orderItems.filter((order) => order.status !== '已取餐');
   const revenueAtRisk = blockedOrders.reduce((sum, order) => sum + order.amount, 0);
 
   return {
@@ -41,13 +41,13 @@ export function summarizeWarehouse(items, orderItems) {
     revenueAtRisk,
     nextAction:
       blockedOrders.length > 0
-        ? `先處理 ${blockedOrders[0].id}，避免 ${blockedOrders[0].customer} 延遲出貨`
+        ? `先處理 ${blockedOrders[0].id}，避免 ${blockedOrders[0].customer} 久候`
         : '目前沒有高風險訂單，維持例行監控',
   };
 }
 
 export function buildActionQueue(items, orderItems) {
-  const lowStockItems = getLowStockItems(items);
+  const lowStockItems = getLowStockIngredients(items);
   const blockedOrders = getBlockedOrders(orderItems);
   const actions = [];
 
@@ -70,8 +70,8 @@ export function buildActionQueue(items, orderItems) {
   }
 
   // C2-HOLE: 課堂要在這裡新增第三條規則。
-  // 目標：從 orderItems 找出 channel === 'LINE OA' 且 status !== '已出貨' 的訂單。
-  // 驗收：action queue 出現「LINE OA 訂單需要客服確認」，而且數字必須由資料算出來。
+  // 目標：從 orderItems 找出 channel === 'LINE OA' 且 status !== '已取餐' 的訂單。
+  // 驗收：action queue 出現「LINE OA 訂單需要主動聯絡客人」，而且數字必須由資料算出來。
 
   return actions;
 }

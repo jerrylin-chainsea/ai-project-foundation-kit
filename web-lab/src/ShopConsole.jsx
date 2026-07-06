@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
-import { warehouse, inventory, orders, zones } from './warehouseData.js';
+import { shop, drinkMenuItems, drinkOrders, zones } from './shopData.js';
 import {
   buildActionQueue,
-  classifyInventoryItem,
+  classifyIngredient,
   formatCurrency,
-  getInventoryShortage,
-  getLowStockItems,
-  summarizeWarehouse,
-} from './warehouseLogic.js';
+  getIngredientShortage,
+  getLowStockIngredients,
+  summarizeShop,
+} from './shopLogic.js';
+import { SpotlightCard, CountUp } from './uiEffects.jsx';
 
 const statusLabel = {
   out: '缺貨',
@@ -15,18 +16,18 @@ const statusLabel = {
   healthy: '正常',
 };
 
-function MetricCard({ label, value, note, tone = 'neutral' }) {
+function MetricCard({ label, value, note, tone = 'neutral', numeric }) {
   return (
-    <article className={`metric-card ${tone}`}>
+    <SpotlightCard className={`metric-card ${tone}`}>
       <span>{label}</span>
-      <strong>{value}</strong>
+      <strong>{numeric !== undefined ? <CountUp value={numeric} /> : value}</strong>
       <small>{note}</small>
-    </article>
+    </SpotlightCard>
   );
 }
 
-function InventoryRow({ item }) {
-  const status = classifyInventoryItem(item);
+function IngredientRow({ item }) {
+  const status = classifyIngredient(item);
   return (
     <tr>
       <td>{item.sku}</td>
@@ -51,26 +52,26 @@ function ActionItem({ item }) {
   );
 }
 
-export default function WarehouseAdmin() {
-  const summary = useMemo(() => summarizeWarehouse(inventory, orders), []);
-  const lowStockItems = useMemo(() => getLowStockItems(inventory), []);
-  const actionQueue = useMemo(() => buildActionQueue(inventory, orders), []);
+export default function ShopConsole() {
+  const summary = useMemo(() => summarizeShop(drinkMenuItems, drinkOrders), []);
+  const lowStockItems = useMemo(() => getLowStockIngredients(drinkMenuItems), []);
+  const actionQueue = useMemo(() => buildActionQueue(drinkMenuItems, drinkOrders), []);
 
   return (
     <main className="admin-shell">
       <header className="admin-hero">
         <p className="eyebrow solid">C2 · AGENTS.md / CLAUDE.md / Plan Mode</p>
-        <h2>{warehouse.name} 後台倉儲管理系統</h2>
+        <h2>{shop.name} 備料控制台</h2>
         <p>
-          這一頁是 C2 的主戰場：學生會在既有後台裡做小範圍開發，練習先規劃、再實作、最後驗證。
-          C3 的訂單可視化與 LINE Flex 會沿用這裡的資料語言。
+          這一頁是 C2 的主戰場：學生會在既有控制台裡做小範圍開發，練習先規劃、再實作、最後驗證。
+          C3 的訂單看板與 LINE Flex 會沿用這裡的資料語言。
         </p>
       </header>
 
-      <section className="metric-grid" aria-label="倉儲摘要">
-        <MetricCard label="SKU 總數" value={summary.totalSku} note="inventory source" />
-        <MetricCard label="低庫存 SKU" value={summary.lowStockCount} note={`${summary.outOfStockCount} 項缺貨`} tone="warn" />
-        <MetricCard label="開放訂單" value={summary.openOrderCount} note={`${summary.blockedOrderCount} 筆需介入`} tone="danger" />
+      <section className="metric-grid" aria-label="備料摘要">
+        <MetricCard label="品項總數" numeric={summary.totalSku} note="menu source" />
+        <MetricCard label="低庫存品項" numeric={summary.lowStockCount} note={`${summary.outOfStockCount} 項缺貨`} tone="warn" />
+        <MetricCard label="待處理訂單" numeric={summary.openOrderCount} note={`${summary.blockedOrderCount} 筆需介入`} tone="danger" />
         <MetricCard label="風險金額" value={formatCurrency(summary.revenueAtRisk)} note="blocked orders" tone="dark" />
       </section>
 
@@ -90,8 +91,8 @@ export default function WarehouseAdmin() {
       <section className="admin-grid">
         <article className="admin-panel">
           <div className="panel-head">
-            <h3>區域水位</h3>
-            <span>{warehouse.date}</span>
+            <h3>備料區水位</h3>
+            <span>{shop.date}</span>
           </div>
           <div className="zone-grid">
             {zones.map((zone) => (
@@ -117,7 +118,7 @@ export default function WarehouseAdmin() {
               <div className="stock-line" key={item.sku}>
                 <strong>{item.product}</strong>
                 <span>
-                  {item.zone} / 缺 {getInventoryShortage(item)} / {item.owner}
+                  {item.zone} / 缺 {getIngredientShortage(item)} / {item.owner}
                 </span>
               </div>
             ))}
@@ -127,7 +128,7 @@ export default function WarehouseAdmin() {
 
       <section className="admin-panel">
         <div className="panel-head">
-          <h3>庫存資料表</h3>
+          <h3>品項資料表</h3>
           <span>readable by agent</span>
         </div>
         <div className="table-wrap">
@@ -144,8 +145,8 @@ export default function WarehouseAdmin() {
               </tr>
             </thead>
             <tbody>
-              {inventory.map((item) => (
-                <InventoryRow item={item} key={item.sku} />
+              {drinkMenuItems.map((item) => (
+                <IngredientRow item={item} key={item.sku} />
               ))}
             </tbody>
           </table>

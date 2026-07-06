@@ -23,3 +23,11 @@
 | diff | 只動 `warehouseLogic.js` 或核准過的允許檔案 |
 | build | `cd web-lab && npm run build` 通過 |
 | human review | 人親自看過計畫、畫面與 diff |
+
+## 加映（選用，不影響上面的主線驗收）
+
+- [ ] 建立過 `.claude/agents/beginner-ai-project-workflow.md`，說得出 name/description、model/memory、核心工作流程、保底機制各在幹嘛
+- [ ] 用 `@agent-beginner-ai-project-workflow` 呼叫過一次
+- [ ] （選用）Claude HUD 已安裝
+
+詳見 [`STEP-03-subagent.md`](./STEP-03-subagent.md)。

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { brand, courseModules, stats, workflow, tabs, checkpoints } from './data.js';
-import WarehouseScene from './WarehouseScene.jsx';
-import WarehouseAdmin from './WarehouseAdmin.jsx';
-import OrderFlow from './OrderFlow.jsx';
+import { Aurora, GradientText } from './uiEffects.jsx';
+import ShopConsole from './ShopConsole.jsx';
+import OrderBoard from './OrderBoard.jsx';
 import Dashboard from './Dashboard.jsx';
 
 function ModuleCard({ code, title, desc, output }) {
@@ -23,12 +23,16 @@ function HomePage() {
   return (
     <div className="site-page">
       <header className="site-hero">
-        <WarehouseScene />
+        <Aurora className="site-hero-aurora" />
         <div className="hero-overlay" />
         <div className="site-hero-inner">
           <p className="eyebrow solid">AI Project Foundation Kit</p>
           <p className="brand-kicker">{brand.badge}</p>
-          <h1>{brand.name}</h1>
+          <h1>
+            <GradientText colors={['#f97316', '#2dd4bf', '#facc15', '#f97316']} speed={7}>
+              {brand.name}
+            </GradientText>
+          </h1>
           <p className="hero-copy">{brand.tagline}</p>
           <a className="primary-link" href="#course-map">
             {brand.cta}
@@ -105,8 +109,8 @@ function HomePage() {
 
 const views = {
   home: { label: '品牌入口', component: <HomePage /> },
-  admin: { label: '倉儲後台', component: <WarehouseAdmin /> },
-  orders: { label: '訂單可視化', component: <OrderFlow /> },
+  admin: { label: '備料控制台', component: <ShopConsole /> },
+  orders: { label: '訂單看板', component: <OrderBoard /> },
   line: { label: 'LINE 推播中心', component: <Dashboard /> },
 };
 

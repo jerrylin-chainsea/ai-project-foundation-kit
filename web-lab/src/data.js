@@ -1,12 +1,12 @@
 // 這個檔案放「首頁要顯示的資料」。
-// C1 初學者只改這裡，就能看到畫面熱更新，不需要碰 React 元件與 three.js 場景。
+// C1 初學者只改這裡，就能看到畫面熱更新，不需要碰 React 元件與動畫背景。
 
 export const brand = {
-  name: 'NOVA WAREHOUSE｜Jerry',
-  badge: 'AI OPERATIONS CONTROL TOWER',
-  tagline: '把訂單、庫存、異常通知與交付驗收收進同一個控制台。',
+  name: 'BOBA TIDE｜Jerry',
+  badge: 'CAMPUS BUBBLE TEA OPS',
+  tagline: '把訂單、備料、LINE 通知與交付驗收收進同一個手搖飲控制台。',
   description:
-    '這不是一個展示型小網頁，而是一個會一路延伸到後台、API、LINE OA、MCP 與個人技術紀錄的企業程式開發練習包。學生在同一個 repo 裡學會接手、規劃、修改、驗證與說明。 ',
+    '這不是一個展示型小網頁，而是一個會一路延伸到備料台、API、LINE OA、MCP 與個人技術紀錄的企業程式開發練習包。學生在同一個 repo 裡學會接手、規劃、修改、驗證與說明。',
   cta: '查看四堂課主線',
 };
 
@@ -19,13 +19,13 @@ export const courseModules = [
   },
   {
     code: 'C2',
-    title: '倉儲後台與 agent 守則',
-    desc: 'AGENTS.md、CLAUDE.md、Plan Mode、規劃 -> 開發 -> 驗證。用小範圍挖洞任務補強後台管理系統。',
-    output: '後台功能變更 + reviewer 驗收',
+    title: '備料控制台與 agent 守則',
+    desc: 'AGENTS.md、CLAUDE.md、Plan Mode、規劃 -> 開發 -> 驗證。用小範圍挖洞任務補強備料控制台。',
+    output: '控制台功能變更 + reviewer 驗收',
   },
   {
     code: 'C3',
-    title: '訂單可視化與 LINE OA',
+    title: '訂單看板與 LINE OA',
     desc: '理解 components、CSS、src、API、webhook、token 與前後端邊界。用推播中心產 Flex Message 並 mock/真送。',
     output: '訂單狀態畫面 + Flex payload',
   },
@@ -58,9 +58,9 @@ export const tabs = [
   {
     id: 'system',
     label: '系統感',
-    title: '畫面要像企業後台，不像 AI 隨手拼的範本',
+    title: '畫面要像真的手搖飲品牌後台，不像 AI 隨手拼的範本',
     body:
-      '首頁用倉儲控制塔建立情境，後台用真實營運欄位呈現 SKU、訂單、區域水位、風險金額與下一步。所有畫面都要能對應到資料與驗收，不用空泛口號填版面。',
+      '首頁用手搖飲品牌情境建立代入感，控制台用真實營運欄位呈現品項、訂單、備料區水位、風險金額與下一步。所有畫面都要能對應到資料與驗收，不用空泛口號填版面。',
   },
   {
     id: 'agent',
@@ -81,16 +81,12 @@ export const tabs = [
     label: '技術表達',
     title: '最後要能說明自己怎麼拆題、怎麼驗證、怎麼交付',
     body:
-      'C4 用 MCP/skills 做小型應用，再把倉儲系統、驗收截圖、技術筆記與踩坑整理成 Astro blog。重點不是炫技，而是讓媒合企業看得出學生有思考過。',
+      'C4 用 MCP/skills 做小型應用，再把手搖飲控制台、驗收截圖、技術筆記與踩坑整理成 Astro blog。重點不是炫技，而是讓媒合企業看得出學生有思考過。',
   },
 ];
 
 export const checkpoints = [
-  '首頁、後台、訂單可視化、LINE 推播中心都能在同一個 repo 打開',
+  '首頁、備料控制台、訂單看板、LINE 推播中心都能在同一個 repo 打開',
   '每堂課都有畫面、輸出、diff、build 或 reviewer 的明確驗收',
   'token 不進前端；真送與自動化都保留人工審核與 mock 保底',
 ];
-
-// 舊講義若還引用 shop/products，也能暫時運作；正式講義會改成 brand/courseModules。
-export const shop = brand;
-export const products = courseModules;

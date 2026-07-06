@@ -98,7 +98,7 @@ function PushReadiness({ report }) {
     <div className="dash-ready" aria-label="推播資料摘要">
       <div>
         <span>推播主題</span>
-        <strong>{report.anomaly_count > 0 ? '低庫存補貨提醒' : '庫存狀態更新'}</strong>
+        <strong>{report.anomaly_count > 0 ? '備料短缺提醒' : '備料狀態更新'}</strong>
       </div>
       <div>
         <span>推播通道</span>

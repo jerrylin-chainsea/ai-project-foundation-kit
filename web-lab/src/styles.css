@@ -298,12 +298,11 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   overflow: hidden;
   color: #fff;
 }
-.warehouse-canvas {
+.site-hero-aurora {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
-.warehouse-canvas canvas { width: 100% !important; height: 100% !important; }
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -1270,3 +1269,111 @@ h2 { font-size: 30px; line-height: 1.25; margin-top: 8px; }
   .dash-tpl { flex-wrap: wrap; }
   .flex-bubble { max-width: 100%; }
 }
+
+/* ── reactbits 風格共用元件（uiEffects.jsx）─────────────── */
+
+/* GradientText：跑動的漸層文字 */
+.gradient-text {
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow linear infinite;
+}
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Aurora：柔光背景，取代原本的 three.js 場景 */
+.aurora-bg {
+  overflow: hidden;
+  background: var(--dark);
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+.aurora-blob.b1 {
+  width: 46vw; height: 46vw; max-width: 640px; max-height: 640px;
+  left: -10%; top: -18%;
+  background: radial-gradient(circle, #2dd4bf, transparent 70%);
+  animation: aurora-drift-1 16s ease-in-out infinite;
+}
+.aurora-blob.b2 {
+  width: 38vw; height: 38vw; max-width: 520px; max-height: 520px;
+  right: -8%; top: 6%;
+  background: radial-gradient(circle, #f97316, transparent 70%);
+  animation: aurora-drift-2 20s ease-in-out infinite;
+}
+.aurora-blob.b3 {
+  width: 42vw; height: 42vw; max-width: 560px; max-height: 560px;
+  left: 22%; bottom: -22%;
+  background: radial-gradient(circle, #facc15, transparent 70%);
+  animation: aurora-drift-3 24s ease-in-out infinite;
+}
+@keyframes aurora-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6%, 8%) scale(1.12); }
+}
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-8%, 6%) scale(1.08); }
+}
+@keyframes aurora-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4%, -6%) scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob { animation: none !important; }
+  .gradient-text { animation: none !important; }
+}
+
+/* SpotlightCard：滑鼠移動時跟隨的光暈 */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(220px circle at var(--spot-x, 50%) var(--spot-y, 50%), var(--spot-color, rgba(45,212,191,0.25)), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.spotlight-card:hover::before { opacity: 1; }
+.spotlight-card > * { position: relative; z-index: 1; }
+
+/* TiltedCard：滑鼠移動時 3D 傾斜 */
+.tilted-card {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+/* GlareHover：對角掃光 */
+.glare-hover {
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.glare-sweep {
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.glare-hover:hover .glare-sweep { left: 130%; }
+
+.order-lane-wrap { border-radius: 8px; }
+.order-lane-tilt { height: 100%; }

@@ -10,5 +10,7 @@
 | build 失敗 | 先看錯誤檔案與行數，不要叫 AI 重構 |
 | reviewer 一直 PASS | 把需求、允許檔案、`git diff` 都貼給它重新檢查 |
 | 對話變亂 | `/compact`；還是亂就 `/clear` 後重貼 planner 卡 |
+| （加映）裝 Claude HUD 看不到 `/claude-hud:setup` | 先跑 README 裡的 `/reload-plugins` |
+| （加映）Windows 顯示沒有 JavaScript runtime | 先安裝 Node.js LTS，裝完重開 Claude Code |
 
 原則：AI 越界時不要急著修功能，先把範圍拉回來。
