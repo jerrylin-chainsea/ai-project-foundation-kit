@@ -18,10 +18,10 @@ git switch -c feature/u1-first-edit
 打開 `web-lab/src/data.js`，找到：
 
 ```js
-name: 'BOBA TIDE｜Jerry',
+name: 'BOBA TIDE',
 ```
 
-把 `｜Jerry` 換成你自己的名字，例如：
+把 標題 加上你自己的名字，例如：
 
 ```js
 name: 'BOBA TIDE｜小明',
