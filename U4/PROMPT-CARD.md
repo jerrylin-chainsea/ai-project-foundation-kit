@@ -1,16 +1,17 @@
 # U4 · Prompt 卡
 
-## 卡 1 ｜ 自動化腳本檢查（不改檔）
+## 卡 1 ｜ Chrome DevTools MCP 驗收（不改檔）
 
 ```text
-請檢查 ops-agent-lab/run_ops_check.py 這個自動化腳本。
+請用 Chrome DevTools MCP 打開 http://localhost:5180。
 不要改檔。
 
-請回答：
-1. 這個腳本依序做哪三件事
-2. 產出的資料是否符合 data-lab/report.json 七欄合約
-3. 哪些額外欄位只是給人審看，下游會忽略
-4. 接到 line-lab/sendLineAlert.js --flex 前，還需要哪個人工審核
+請檢查並回答：
+1. console 有沒有 error
+2. 品牌入口是否有動態背景
+3. 訂單看板是否有 canvas 動畫
+4. LINE 推播中心是否能看到三個推播範本
+請回報驗收結果，並附一張截圖。
 ```
 
 ## 卡 2 ｜ /ship-check（交付前檢查）

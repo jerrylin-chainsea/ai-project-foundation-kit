@@ -1,4 +1,4 @@
-# U4 · STEP 04 ｜ 寫一篇技術 blog
+# U4 · STEP 03 ｜ 寫一篇技術 blog
 
 > **這堂完成物**：把四堂課的成果整理成一篇能被企業看懂的技術紀錄。
 
@@ -21,4 +21,4 @@
 
 Blog 可以放連結回你的 BOBA TIDE 系統 demo，或放截圖與 GitHub repo 連結。
 
-→ 下一步：`STEP-05-blog-deploy.md`，本機預覽 blog，設定 GitHub Pages，部署公開網址。
+→ 下一步：`STEP-04-blog-deploy.md`，本機預覽 blog，設定 GitHub Pages，部署公開網址。

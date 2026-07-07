@@ -8,17 +8,10 @@
 
 ## MCP
 
-- [ ] Chrome DevTools MCP：驗收 localhost、console、Network 或截圖；失敗則用人工 F12 保底
+- [ ] Chrome DevTools MCP：驗收過 console error、動態背景、canvas 動畫、推播範本，截圖只是附帶證據；失敗則用人工 F12 保底
 - [ ] Context7 MCP：查過一次最新文件，答案有來源
-- [ ] Codebase Memory MCP：回答過專案檔案關係問題
+- [ ] Codebase Memory MCP：回答過專案檔案關係問題，也問過一次「改這裡會影響哪裡」
 - [ ] 說得出 MCP 權限三問：能讀什麼、能不能寫、會不會碰正式資料
-
-## 自動化小範例
-
-- [ ] 跑過 `python ops-agent-lab/run_ops_check.py`
-- [ ] 跑過 `python ops-agent-lab/run_ops_check.py --write-report`
-- [ ] 跑過 `node line-lab/sendLineAlert.js --flex`，看到 mock 或產出 payload
-- [ ] 說得出自動產出的 report.json 跟 U3 手動填的格式完全一樣
 
 ## Astro 技術 blog
 
@@ -35,14 +28,13 @@
 1. BOBA TIDE repo：首頁、備料控制台、訂單看板、LINE 推播中心可運作。
 2. 一份 LINE Flex mock payload 或截圖。
 3. 自建 `/ops-check`、`/ship-check` 與三個 MCP 的使用證據或保底驗收證據。
-4. 一次自動化小範例產出的 report.json。
-5. 一篇已部署的 Astro 技術 blog，能說明自己如何拆題、開發、驗證、交付。
+4. 一篇已部署的 Astro 技術 blog，能說明自己如何拆題、開發、驗證、交付。
 
 ## DoD 對照
 
 | 驗收面向 | 這堂的標準 |
 |---|---|
 | 畫面 | BOBA TIDE 系統回歸正常，blog 可預覽且可公開打開 |
-| 輸出 | Skill 指令回報、MCP 回報、自動產出的 report.json |
+| 輸出 | Skill 指令回報、MCP 回報(console/影響範圍/文件出處) |
 | build | web-lab build + blog build + GitHub Pages workflow |
 | human review | 推播內容與 blog 內容都由人審核 |

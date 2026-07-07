@@ -1,4 +1,4 @@
-# U4 · STEP 05 ｜ Astro Blog 與 GitHub Pages 部署
+# U4 · STEP 04 ｜ Astro Blog 與 GitHub Pages 部署
 
 > **這一步完成物**：一篇可以公開展示的 BOBA TIDE 技術紀錄，以及一個 GitHub Pages 公開網址。
 
@@ -117,7 +117,7 @@ const base = process.env.BASE_PATH ?? (repositoryName && !isUserPage ? `/${repos
 U1 進得了專案
 U2 管得住 AI 寫的 code
 U3 控制得了 AI 對真實世界的行動(LINE OA 真推播)
-U4 擴充了 AI 能碰的範圍(Skills / MCP / 自動化)
+U4 擴充了 AI 能碰的範圍(Skills / MCP)
 ```
 
 > **你不是只會問 AI，你是會管理 AI 做事的人。**

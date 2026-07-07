@@ -73,6 +73,6 @@ Astro 部署到 GitHub Pages 的最新設定方式是什麼？use context7
 2. 它能不能寫入？
 3. 會不會碰到正式資料或 token？
 
-→ 下一步：`STEP-03-automation.md`，再看一個自動化小範例。
+→ 下一步：`STEP-03-blog-write.md`，把四堂課的成果整理成一篇技術 blog。
 
 收束：MCP 不是炫技，而是讓你能更穩定地讀專案、查文件、驗收畫面。

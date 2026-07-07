@@ -2,9 +2,6 @@
 
 | 狀況 | 解法 |
 |---|---|
-| `python` 找不到 | Windows 可試 `py ops-agent-lab/run_ops_check.py`；macOS/Linux 確認已安裝 Python 3 |
-| `run_ops_check.py --write-report` 後 Dashboard 數字變了 | 正常。自動化腳本產出的是低庫存補貨通知；想回原資料就用 git diff 看清楚再決定是否還原 |
-| `node line-lab/sendLineAlert.js --flex` 沒產生檔案 | 先看是不是 `report.json` 合約錯；錯誤訊息會直接印在終端機 |
 | `/ops-check` 或 `/ship-check` 打了沒反應 | 確認檔案路徑是 `.claude/commands/ops-check.md` 或 `.claude/commands/ship-check.md`；保底直接貼 Prompt 卡全文 |
 | `cd blog-lab && npm run dev` 失敗 | 先確認人在 `blog-lab/`，再跑 `npm install`；不要在專案根目錄跑 Astro 指令 |
 | `npm install` 後看到 vulnerabilities | 課堂不要跑 `npm audit fix --force`；先完成 build 與部署主線，套件升級由老師統一處理 |
