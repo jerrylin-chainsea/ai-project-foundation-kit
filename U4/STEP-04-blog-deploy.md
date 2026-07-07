@@ -12,8 +12,8 @@ npm run dev
 
 打開終端機顯示的本機網址。你應該看到：
 
-- `NOVA WAREHOUSE 技術紀錄` 首頁
-- 一篇 `我如何用 AI coding agent 接手並交付 NOVA WAREHOUSE 倉儲系統` 文章
+- `Blog` 首頁
+- 一篇 `我如何用 AI coding agent 接手並交付 blog` 文章
 
 這是舊主題的草稿，不是最終稿——你的專案已經改名叫 BOBA TIDE，這一步要把文章整篇改寫成你自己做的 BOBA TIDE 系統，不是保留倉儲的內容。
 

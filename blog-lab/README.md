@@ -1,4 +1,4 @@
-# NOVA WAREHOUSE Blog Lab
+# Blog Lab
 
 這是 U4 使用的 Astro 技術紀錄 starter。用途不是做一個漂亮空殼，而是把前面完成的倉儲系統整理成可以對企業說明的案例文章。
 
@@ -10,7 +10,7 @@ npm install
 npm run dev
 ```
 
-打開終端機顯示的網址，應該看到首頁與一篇 NOVA WAREHOUSE 技術案例草稿。
+打開終端機顯示的網址，應該看到首頁與一篇 案例草稿。
 
 ## 寫文章
 

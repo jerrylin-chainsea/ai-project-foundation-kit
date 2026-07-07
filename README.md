@@ -1,8 +1,8 @@
 # ai-project-foundation-kit
 
-這是 M11/U11「**AI 驅動開發流程與平台整合**」的練習專案。整門課使用同一個企業案例：
+這是 M11/U11「**AI 驅動開發流程**」的練習專案。整門課使用同一個企業案例：
 
-> **NOVA WAREHOUSE 智慧倉儲控制塔** — 從接手 repo、規劃小範圍開發、完成倉儲後台功能、理解訂單可視化與 LINE OA Flex 推播，到最後用 MCP/skills 與 Astro blog 整理技術成果。
+>  — 從接手 repo、規劃小範圍開發、完成倉儲後台功能、理解訂單可視化與 LINE OA Flex 推播，到最後用 MCP/skills 與 Astro blog 整理技術成果。
 
 主線只有一條：
 

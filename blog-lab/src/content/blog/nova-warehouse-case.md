@@ -6,7 +6,7 @@ summary: 從需求拆解、倉儲後台規則、LINE Flex mock、DevTools 驗收
 
 ## 1. 問題背景
 
-NOVA WAREHOUSE 的營運人員需要快速知道三件事：
+營運人員需要快速知道三件事：
 
 - 哪些 SKU 低於安全庫存。
 - 哪些訂單因缺料或高優先級需要處理。
