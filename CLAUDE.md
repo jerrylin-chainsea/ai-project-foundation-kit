@@ -6,10 +6,11 @@
 
 教學用「BOBA TIDE 手搖飲備料控制台 + LINE OA Flex 推播 + ops agent 自動化」。
 啟動：`cd web-lab && npm run dev`（port 5180）。build：`npm run build`。
-推播兩條路，走同一條後端 guard 階梯：
+U3「訂單看板」按「開始營業」後,`web-lab/orderSim.js`(老師檔,dev-only)在伺服端跑訂單/庫存模擬,前端每 3 秒 `GET /api/orders` 輪詢;沒開 dev 後端時自動退回 `shopData.js` 的靜態範例,不會白屏。
+推播三條路(即時訂單、庫存警示、營運異常),走同一條後端 guard 階梯：
 - Dashboard「推播 LINE Flex」按鈕 → 打本機後端 `web-lab/vite.config.js` 的 `/api/send-line-flex`（dev-only）→ `line-lab/sendLineAlert.js` 的 `handlePush`。
 - 終端機 `node line-lab/sendLineAlert.js --flex`（預設 mock；真送需 `LINE_REAL_SEND=1` + `--flex --confirm`）。
-兩條路的 token 與收件對象都只在 `line-lab/.env`（伺服端），不進前端。兩個推播範本：`report.json`（營運異常）、`orders.json`（訂單資訊）。
+三條路的 token 與收件對象都只在 `line-lab/.env`（伺服端），不進前端。三個推播範本：即時訂單(藍,來自看板)、庫存警示(琥珀,`orderSim.js` 即時算出的 report 七欄合約)、營運異常(紅,`report.json`)。
 ops agent：`python ops-agent-lab/run_ops_check.py --write-report` 會產出同一份 `data-lab/report.json`，再交給 Dashboard 與 LINE Flex 腳本。
 Blog：`cd blog-lab && npm run dev` 預覽 Astro 技術紀錄，`npm run build` 驗收，GitHub Pages 由 `.github/workflows/deploy-blog.yml` 部署 `blog-lab/dist`。
 

@@ -117,19 +117,15 @@ function buildPayload(report) {
 }
 
 // 三種訊息、三種顏色:訂單=藍、庫存警示=琥珀、營運異常=紅。
-// report 類靠既有的 notification_theme 欄位分流(U4 ops 腳本產的低庫存報告會自動變琥珀),不加新欄位。
+// 顏色由呼叫端明講的 themeKey 決定(handlePush 依 template 傳入),不靠猜 report 內容——
+// data-lab/report.json 這份檔案同時被 U3 靜態範例與 U4 ops 腳本共用,notification_theme
+// 欄位的值不能拿來當「這次要顯示哪個顏色」的依據,兩件事分開才不會互相干擾。
 // web-lab/src/reportContract.js 有同一張表,兩邊要逐字一致。
 const FLEX_THEMES = {
   order: { title: "訂單資訊", color: "#2764b5" },
   inventory: { title: "庫存警示", color: "#c87900" },
   anomaly: { title: "營運異常通知", color: "#b42318" },
 };
-
-function reportTheme(report) {
-  return report.notification_theme === "low_stock_replenishment"
-    ? FLEX_THEMES.inventory
-    : FLEX_THEMES.anomaly;
-}
 
 function buildFlexField(label, value) {
   return {
@@ -156,8 +152,8 @@ function buildFlexField(label, value) {
   };
 }
 
-function buildFlexMessage(report) {
-  const theme = reportTheme(report);
+function buildFlexMessage(report, themeKey = "anomaly") {
+  const theme = FLEX_THEMES[themeKey] ?? FLEX_THEMES.anomaly;
   const actionItems =
     report.action_items.length > 0
       ? report.action_items.map((item, index) => `${index + 1}. ${item}`)
@@ -214,10 +210,10 @@ function buildFlexMessage(report) {
   };
 }
 
-function buildFlexPayload(report) {
+function buildFlexPayload(report, themeKey = "anomaly") {
   return {
     to: process.env.LINE_TARGET_ID || MOCK_TARGET_ID,
-    messages: [buildFlexMessage(report)],
+    messages: [buildFlexMessage(report, themeKey)],
   };
 }
 
@@ -376,7 +372,7 @@ async function handlePush({ template, reviewed, order, report } = {}) {
     } else {
       const data = report ?? readReport();
       assertReportContract(data);
-      payload = buildFlexPayload(data);
+      payload = buildFlexPayload(data, kind === "inventory" ? "inventory" : "anomaly");
     }
   } catch (error) {
     return { status: "contract_error", template: kind, errors: [error.message] };

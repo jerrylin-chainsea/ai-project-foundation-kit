@@ -5,11 +5,12 @@
 ```text
 請根據 U3/API-FLOW.md 和目前專案，
 用初學者聽得懂的方式解釋：
-1. 按「推播 LINE Flex」時資料怎麼走
-2. payload 是什麼
-3. token 為什麼不能放在前端
-4. mock send 和 real send 差在哪
-5. webhook 和 push API 的方向差在哪
+1. 訂單看板每 3 秒打 /api/orders，資料怎麼走（跟推播的方向有什麼不同）
+2. 按「推播 LINE Flex」時資料怎麼走
+3. payload 是什麼
+4. token 為什麼不能放在前端
+5. mock send 和 real send 差在哪
+6. webhook 和這兩個 API 的方向差在哪
 
 不要改檔。
 請最後給我一句可以放進報告的總結。

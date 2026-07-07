@@ -63,12 +63,15 @@ function freshState() {
     orders: [],
     doneCount: 0,
     revenue: 0,
-    // 庫存以 shopData.drinkMenuItems 為種子,深拷貝成伺服端活狀態
+    // 庫存以 shopData.drinkMenuItems 為種子,深拷貝成伺服端活狀態。
+    // 注意:shopData.js 有幾項(如波霸)原本就寫死庫存 0,那是 U2 靜態教材的示範值,
+    // 不動它;但「營業中」是持續消耗的即時模擬,起始庫存拉到安全量之上,
+    // 讓警示是「開店後真的被訂單吃光」才出現,不是一開店就已經缺貨。
     inventory: drinkMenuItems.map((item) => ({
       sku: item.sku,
       product: item.product,
       zone: item.zone,
-      stock: item.stock,
+      stock: Math.max(item.stock, item.reorderPoint + 10),
       reorderPoint: item.reorderPoint,
       owner: item.owner,
     })),
@@ -131,8 +134,18 @@ function makeOrder() {
   };
 }
 
+// 供應商小額到貨:每拍小機率讓某項原料 +1,避免熱門品項一路歸零後永遠回不來。
+// 這不是自動補滿,只是讓警示有「這陣子回穩了/又緊張了」的起伏,而不是單調歸零。
+function trickleRestock() {
+  if (state.rng() < 0.4) {
+    const item = pick(state.inventory);
+    if (item.stock < item.reorderPoint + 10) item.stock += 1;
+  }
+}
+
 // 一拍:舊訂單往前走一步、可能來一張新單、已取餐的歸檔。
 function beat() {
+  trickleRestock();
   for (const order of state.orders) {
     const roll = state.rng();
     if (order.status === '待製作') {

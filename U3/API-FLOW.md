@@ -1,6 +1,25 @@
 # U3 · API / webhook / token / mock-vs-real 圖解
 
-這份圖解只處理一件事：按下「推播 LINE Flex」時，資料到底怎麼走。
+這份圖解處理兩件事：訂單看板的資料怎麼「活」起來，以及按下「推播 LINE Flex」時，資料到底怎麼走。
+
+## 0. 看板怎麼「活」起來：輪詢（polling）
+
+```text
+Browser / React（訂單看板）
+  |
+  | 每 3 秒一次 GET /api/orders
+  v
+Vite dev middleware
+  |
+  | 呼叫 web-lab/orderSim.js（伺服端模擬引擎）
+  v
+回傳 JSON：{ orders, inventory, alerts, ... }
+  |
+  v
+Browser 重新畫看板
+```
+
+這是「拉」（pull）：前端主動問。方向跟第 3 節的 webhook 相反。`orderSim.js` 只活在 `npm run dev` 的伺服端記憶體，沒有 dev 後端時，前端會自動退回 `shopData.js` 的靜態範例。
 
 ## 1. 課堂主線：mock send
 
@@ -75,7 +94,7 @@ LINE Platform
 
 | 名詞 | 在本課的意思 | 學生要會說什麼 |
 |---|---|---|
-| API | 前端與後端約定好的呼叫入口 | 按推播時打的是 `/api/send-line-flex` |
+| API | 前端與後端約定好的呼叫入口 | 看板每 3 秒打 `/api/orders`；按推播時打 `/api/send-line-flex` |
 | payload | 要送出去的結構化資料 | Flex Message 是 JSON，不是隨便一段文字 |
 | token | 呼叫外部平台的密鑰 | 只能在 `.env`，不能進前端、不能 commit |
 | env var | 不放進程式碼的環境設定 | `LINE_REAL_SEND` 控制 mock 或真送 |

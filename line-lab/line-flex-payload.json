@@ -6,21 +6,30 @@
       "altText": "營運異常通知",
       "contents": {
         "type": "bubble",
-        "body": {
+        "styles": {
+          "header": {
+            "backgroundColor": "#b42318"
+          }
+        },
+        "header": {
           "type": "box",
           "layout": "vertical",
-          "spacing": "md",
           "contents": [
             {
               "type": "text",
               "text": "營運異常通知",
               "weight": "bold",
               "size": "lg",
+              "color": "#ffffff",
               "wrap": true
-            },
-            {
-              "type": "separator"
-            },
+            }
+          ]
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
             {
               "type": "box",
               "layout": "baseline",

@@ -229,7 +229,7 @@ export default function Dashboard() {
   const activePayload = contractOk
     ? isOrder
       ? buildOrderFlexPayload(activeData)
-      : buildFlexPayload(activeData)
+      : buildFlexPayload(activeData, isInventory ? 'inventory' : 'anomaly')
     : null;
 
   const canCheck = loaded;

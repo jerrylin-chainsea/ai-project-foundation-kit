@@ -4,11 +4,11 @@
 
 ## 1. 先把資料走到預覽（Button 1-3）
 
-在「LINE 推播中心」選「營運異常」或「訂單資訊」，依序按下三顆按鈕：
+在「LINE 推播中心」選一種訊息類型（訂單資訊 / 庫存警示 / 營運異常），依序按下三顆按鈕：
 
-1. **載入範例資料**——畫面會顯示資料檔裡的欄位：`report.json` 是風險等級、營收、異常數、top product、action items；`orders.json` 是訂單編號、客戶、通路、狀態、金額、品項。
+1. **載入資料**——訂單資訊、庫存警示優先讀看板的即時資料（沒開店或連不到 dev 後端就退回靜態範例）；營運異常固定讀 `data-lab/report.json`。
 2. **檢查資料合約**——綠色通過代表必要欄位存在，且 `risk_level` 是 `low / medium / high`。資料合約沒過時，後面的 Flex 預覽與推播會被擋下。
-3. **生成 Flex 預覽**——你會看到 LINE 卡片樣式，也可以切到 JSON。這就是 payload：前端與後端都要看得懂的結構化資料。
+3. **生成 Flex 預覽**——你會看到 LINE 卡片樣式，顏色跟著類型變（藍/琥珀/紅），也可以切到 JSON。這就是 payload：前端與後端都要看得懂的結構化資料。
 
 ## 2. 人工審核（Button 4）
 
@@ -20,7 +20,7 @@
 我已人工審核這則通知內容
 ```
 
-通知不是 AI 產生就能送出，而是人審後才送。
+通知不是系統算出來就能送出，而是人審後才送——即使是自動判斷出來的庫存警示也一樣。
 
 ## 3. 推播 LINE Flex（Button 5）
 
@@ -42,7 +42,7 @@
 POST /api/send-line-flex
 ```
 
-瀏覽器不會直接打 `api.line.me`，也不會帶 token。token 只在 `line-lab/.env`，真正打 LINE 的是後端。
+前端只送 `template`（訂單資訊時多帶 `orderId`）與 `reviewed`；瀏覽器不會直接打 `api.line.me`，也不會帶 token。token 只在 `line-lab/.env`，真正打 LINE 的是後端。
 
 請對照 [`API-FLOW.md`](./API-FLOW.md) 的 mock flow：
 

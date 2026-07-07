@@ -21,9 +21,9 @@
 
 ## 資料合約（整個專案的核心）
 
-- 唯一資料來源：`data-lab/report.json`，欄位固定七欄。
+- `data-lab/report.json` 是靜態資料來源，欄位固定七欄；U3 的「營運中」訂單模擬（`web-lab/orderSim.js`）即時算出的庫存警示也是同一份七欄合約，不是另外發明的格式。
 - `risk_level` 只能是 `low / medium / high`。
-- 畫面與通知**不得**另存第二份資料。
+- 畫面與通知**不得**另存第三份不同格式的資料。
 - `web-lab/src/reportContract.js` 與 `line-lab/sendLineAlert.js` 是雙胞胎：
   檢查規則與錯誤訊息逐字相同，改一邊必須同步另一邊（且通常兩邊都不該改）。
 
@@ -33,7 +33,7 @@
 |---|---|
 | U1 | `web-lab/src/data.js` |
 | U2 | `web-lab/src/ShopConsole.jsx`、`web-lab/src/shopLogic.js`、`web-lab/src/styles.css`（僅備料控制台區塊） |
-| U3 | `web-lab/src/OrderBoard.jsx`、`web-lab/src/OrderBoardCanvas.jsx`、`web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅訂單看板或 Dashboard 區塊）、`data-lab/report.json`、`data-lab/orders.json`（練習用）、`line-lab/.env`（自己的真送設定，不 commit）。`vite.config.js`／`reportContract.js`／`sendLineAlert.js` 是老師寫好的後端與雙胞胎，只在老師指定時才動 |
+| U3 | `web-lab/src/OrderBoard.jsx`、`web-lab/src/OrderBoardCanvas.jsx`、`web-lab/src/Dashboard.jsx`、`web-lab/src/styles.css`（僅訂單看板或 Dashboard 區塊）、`data-lab/report.json`、`data-lab/orders.json`（練習用）、`line-lab/.env`（自己的真送設定，不 commit）。`web-lab/orderSim.js`（訂單/庫存模擬引擎）／`vite.config.js`／`reportContract.js`／`sendLineAlert.js` 是老師寫好的後端、模擬引擎與雙胞胎，只在老師指定時才動 |
 | U4 | `ops-agent-lab/**`、`.github/workflows/u11-ops-check.yml`、`.github/workflows/deploy-blog.yml`、`data-lab/report.json`（產出檔）、`line-lab/line-flex-payload.json`（產出檔）、`.claude/commands/ops-check.md`、`.claude/commands/ship-check.md`、`blog-lab/src/content/blog/**`、`blog-lab/public/images/**` |
 
 ## 完成的定義（DoD）
