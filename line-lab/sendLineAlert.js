@@ -116,6 +116,21 @@ function buildPayload(report) {
   };
 }
 
+// 三種訊息、三種顏色:訂單=藍、庫存警示=琥珀、營運異常=紅。
+// report 類靠既有的 notification_theme 欄位分流(U4 ops 腳本產的低庫存報告會自動變琥珀),不加新欄位。
+// web-lab/src/reportContract.js 有同一張表,兩邊要逐字一致。
+const FLEX_THEMES = {
+  order: { title: "訂單資訊", color: "#2764b5" },
+  inventory: { title: "庫存警示", color: "#c87900" },
+  anomaly: { title: "營運異常通知", color: "#b42318" },
+};
+
+function reportTheme(report) {
+  return report.notification_theme === "low_stock_replenishment"
+    ? FLEX_THEMES.inventory
+    : FLEX_THEMES.anomaly;
+}
+
 function buildFlexField(label, value) {
   return {
     type: "box",
@@ -142,6 +157,7 @@ function buildFlexField(label, value) {
 }
 
 function buildFlexMessage(report) {
+  const theme = reportTheme(report);
   const actionItems =
     report.action_items.length > 0
       ? report.action_items.map((item, index) => `${index + 1}. ${item}`)
@@ -149,22 +165,29 @@ function buildFlexMessage(report) {
 
   return {
     type: "flex",
-    altText: "營運異常通知",
+    altText: theme.title,
     contents: {
       type: "bubble",
+      styles: { header: { backgroundColor: theme.color } },
+      header: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "text",
+            text: theme.title,
+            weight: "bold",
+            size: "lg",
+            color: "#ffffff",
+            wrap: true,
+          },
+        ],
+      },
       body: {
         type: "box",
         layout: "vertical",
         spacing: "md",
         contents: [
-          {
-            type: "text",
-            text: "營運異常通知",
-            weight: "bold",
-            size: "lg",
-            wrap: true,
-          },
-          { type: "separator" },
           buildFlexField("risk_level", report.risk_level),
           buildFlexField("total_revenue", formatMoney(report.total_revenue)),
           buildFlexField("anomaly_count", report.anomaly_count),
@@ -200,6 +223,7 @@ function buildFlexPayload(report) {
 
 // 訂單資訊 Flex bubble。與 web-lab/src/reportContract.js 的 buildOrderFlexMessage 逐字一致。
 function buildOrderFlexMessage(order) {
+  const theme = FLEX_THEMES.order;
   const itemLines =
     order.items.length > 0
       ? order.items.map((it) => `${it.name} ×${it.qty}  ${formatMoney(it.price)}`)
@@ -207,22 +231,29 @@ function buildOrderFlexMessage(order) {
 
   return {
     type: "flex",
-    altText: "訂單資訊",
+    altText: theme.title,
     contents: {
       type: "bubble",
+      styles: { header: { backgroundColor: theme.color } },
+      header: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "text",
+            text: theme.title,
+            weight: "bold",
+            size: "lg",
+            color: "#ffffff",
+            wrap: true,
+          },
+        ],
+      },
       body: {
         type: "box",
         layout: "vertical",
         spacing: "md",
         contents: [
-          {
-            type: "text",
-            text: "訂單資訊",
-            weight: "bold",
-            size: "lg",
-            wrap: true,
-          },
-          { type: "separator" },
           buildFlexField("order_id", order.order_id),
           buildFlexField("customer", order.customer),
           buildFlexField("channel", order.channel),
@@ -323,25 +354,29 @@ async function sendWithGuards(payload, confirmed) {
 }
 
 // Dashboard「推播中心」按鈕的入口(由 web-lab/vite.config.js 的 /api/send-line-flex 呼叫)。
-// 前端只傳 template 與 reviewed;token 與收件對象一律留在伺服端 .env,不回傳給前端。
-async function handlePush({ template, reviewed } = {}) {
+// 前端只傳 template 與 reviewed(即時訂單多帶 orderId,由中介層換成 order 物件);
+// token 與收件對象一律留在伺服端 .env,不回傳給前端。
+// order / report 物件只會由 vite 中介層傳入(即時訂單、即時庫存);
+// 不管資料從哪來,都走同一套雙胞胎合約檢查——資料來源變多,防線不變。
+async function handlePush({ template, reviewed, order, report } = {}) {
   loadLocalEnv();
 
   if (reviewed !== true) {
     return { status: "blocked", reason: "not_reviewed", message: "尚未完成人工審核,不能送出。" };
   }
 
-  const kind = template === "order" ? "order" : "anomaly";
+  const isOrderKind = template === "order" || template === "live-order";
+  const kind = isOrderKind ? template : template === "inventory" ? "inventory" : "anomaly";
   let payload;
   try {
-    if (kind === "order") {
-      const order = readOrders();
-      assertOrderContract(order);
-      payload = buildOrderFlexPayload(order);
+    if (isOrderKind) {
+      const data = order ?? readOrders();
+      assertOrderContract(data);
+      payload = buildOrderFlexPayload(data);
     } else {
-      const report = readReport();
-      assertReportContract(report);
-      payload = buildFlexPayload(report);
+      const data = report ?? readReport();
+      assertReportContract(data);
+      payload = buildFlexPayload(data);
     }
   } catch (error) {
     return { status: "contract_error", template: kind, errors: [error.message] };

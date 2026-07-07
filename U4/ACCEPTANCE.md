@@ -1,28 +1,24 @@
 # U4 · 驗收單
 
-## ops agent / GitHub Actions
+## Skills
 
-- [ ] 說得出 `data_checker` / `ops_decider` / `push_writer` 三個角色各做什麼
-- [ ] 跑過 `python ops-agent-lab/run_ops_check.py`
-- [ ] 跑過 `python ops-agent-lab/run_ops_check.py --write-report`
-- [ ] 跑過 `node line-lab/sendLineAlert.js --flex`，看到 mock 或產出 payload
-- [ ] 看懂 `.github/workflows/u11-ops-check.yml` 只產 artifact，不真送 LINE
+- [ ] `.claude/commands/ops-check.md` 建立完成，`/ops-check` 或等價 prompt 可用
+- [ ] `.claude/commands/ship-check.md` 建立完成，`/ship-check` 或等價 prompt 可用
+- [ ] 說得出 Skill 是「寫成固定指令的 SOP」，不是每次重講一遍
 
-## reviewer / build / commit
-
-- [ ] 跑過 reviewer 卡，拿到 Verdict（PASS 或 BLOCK）
-- [ ] `npm run build` 通過
-- [ ] `git diff -- web-lab/package.json` 沒有非預期變更
-- [ ] 完成 commit；有遠端的班級完成 push
-
-## MCP / Skills
+## MCP
 
 - [ ] Chrome DevTools MCP：驗收 localhost、console、Network 或截圖；失敗則用人工 F12 保底
 - [ ] Context7 MCP：查過一次最新文件，答案有來源
 - [ ] Codebase Memory MCP：回答過專案檔案關係問題
 - [ ] 說得出 MCP 權限三問：能讀什麼、能不能寫、會不會碰正式資料
-- [ ] `/ops-check` 或等價 prompt 可用
-- [ ] `/ship-check` 或等價 prompt 可用
+
+## 自動化小範例
+
+- [ ] 跑過 `python ops-agent-lab/run_ops_check.py`
+- [ ] 跑過 `python ops-agent-lab/run_ops_check.py --write-report`
+- [ ] 跑過 `node line-lab/sendLineAlert.js --flex`，看到 mock 或產出 payload
+- [ ] 說得出自動產出的 report.json 跟 U3 手動填的格式完全一樣
 
 ## Astro 技術 blog
 
@@ -38,8 +34,8 @@
 
 1. BOBA TIDE repo：首頁、備料控制台、訂單看板、LINE 推播中心可運作。
 2. 一份 LINE Flex mock payload 或截圖。
-3. 一次 ops agent / GitHub Actions / reviewer 驗收紀錄。
-4. 三個 MCP 的使用證據或保底驗收證據。
+3. 自建 `/ops-check`、`/ship-check` 與三個 MCP 的使用證據或保底驗收證據。
+4. 一次自動化小範例產出的 report.json。
 5. 一篇已部署的 Astro 技術 blog，能說明自己如何拆題、開發、驗證、交付。
 
 ## DoD 對照
@@ -47,7 +43,6 @@
 | 驗收面向 | 這堂的標準 |
 |---|---|
 | 畫面 | BOBA TIDE 系統回歸正常，blog 可預覽且可公開打開 |
-| 輸出 | ops agent JSON、Flex payload、reviewer、MCP 回報 |
-| diff | reviewer PASS 且人工抽查 |
+| 輸出 | Skill 指令回報、MCP 回報、自動產出的 report.json |
 | build | web-lab build + blog build + GitHub Pages workflow |
-| human review | artifact、推播內容與 blog 內容都由人審核 |
+| human review | 推播內容與 blog 內容都由人審核 |

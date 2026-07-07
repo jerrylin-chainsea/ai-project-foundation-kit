@@ -110,3 +110,15 @@ const base = process.env.BASE_PATH ?? (repositoryName && !isUserPage ? `/${repos
 5. 公開網址打得開。
 
 收束：公開網址不是最終目的。真正要交付的是一篇能說清楚「我如何拆題、實作、驗證、控風險」的技術案例。
+
+## 8. 結業：四堂課，串成一句話
+
+```text
+U1 進得了專案
+U2 管得住 AI 寫的 code
+U3 控制得了 AI 對真實世界的行動(LINE OA 真推播)
+U4 擴充了 AI 能碰的範圍(Skills / MCP / 自動化)
+```
+
+> **你不是只會問 AI，你是會管理 AI 做事的人。**
+> AI 做出來不算完成，通過驗收才算完成。

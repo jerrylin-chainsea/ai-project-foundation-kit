@@ -82,6 +82,21 @@ export function buildPayload(report) {
   };
 }
 
+// 三種訊息、三種顏色:訂單=藍、庫存警示=琥珀、營運異常=紅。
+// report 類靠既有的 notification_theme 欄位分流(U4 ops 腳本產的低庫存報告會自動變琥珀),不加新欄位。
+// line-lab/sendLineAlert.js 有同一張表,兩邊要逐字一致。
+export const FLEX_THEMES = {
+  order: { title: '訂單資訊', color: '#2764b5' },
+  inventory: { title: '庫存警示', color: '#c87900' },
+  anomaly: { title: '營運異常通知', color: '#b42318' },
+};
+
+export function reportTheme(report) {
+  return report.notification_theme === 'low_stock_replenishment'
+    ? FLEX_THEMES.inventory
+    : FLEX_THEMES.anomaly;
+}
+
 function buildFlexField(label, value) {
   return {
     type: 'box',
@@ -108,6 +123,7 @@ function buildFlexField(label, value) {
 }
 
 export function buildFlexMessage(report) {
+  const theme = reportTheme(report);
   const actionItems =
     report.action_items.length > 0
       ? report.action_items.map((item, index) => `${index + 1}. ${item}`)
@@ -115,22 +131,29 @@ export function buildFlexMessage(report) {
 
   return {
     type: 'flex',
-    altText: '營運異常通知',
+    altText: theme.title,
     contents: {
       type: 'bubble',
+      styles: { header: { backgroundColor: theme.color } },
+      header: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: theme.title,
+            weight: 'bold',
+            size: 'lg',
+            color: '#ffffff',
+            wrap: true,
+          },
+        ],
+      },
       body: {
         type: 'box',
         layout: 'vertical',
         spacing: 'md',
         contents: [
-          {
-            type: 'text',
-            text: '營運異常通知',
-            weight: 'bold',
-            size: 'lg',
-            wrap: true,
-          },
-          { type: 'separator' },
           buildFlexField('risk_level', report.risk_level),
           buildFlexField('total_revenue', formatMoney(report.total_revenue)),
           buildFlexField('anomaly_count', report.anomaly_count),
@@ -185,6 +208,7 @@ export function validateOrder(order) {
 }
 
 export function buildOrderFlexMessage(order) {
+  const theme = FLEX_THEMES.order;
   const itemLines =
     order.items.length > 0
       ? order.items.map((it) => `${it.name} ×${it.qty}  ${formatMoney(it.price)}`)
@@ -192,22 +216,29 @@ export function buildOrderFlexMessage(order) {
 
   return {
     type: 'flex',
-    altText: '訂單資訊',
+    altText: theme.title,
     contents: {
       type: 'bubble',
+      styles: { header: { backgroundColor: theme.color } },
+      header: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: theme.title,
+            weight: 'bold',
+            size: 'lg',
+            color: '#ffffff',
+            wrap: true,
+          },
+        ],
+      },
       body: {
         type: 'box',
         layout: 'vertical',
         spacing: 'md',
         contents: [
-          {
-            type: 'text',
-            text: '訂單資訊',
-            weight: 'bold',
-            size: 'lg',
-            wrap: true,
-          },
-          { type: 'separator' },
           buildFlexField('order_id', order.order_id),
           buildFlexField('customer', order.customer),
           buildFlexField('channel', order.channel),

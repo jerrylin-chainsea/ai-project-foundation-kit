@@ -1,7 +1,9 @@
-// 營運異常 Dashboard(U3 主戰場)。
-// 資料來源:data-lab/report.json(營運異常)與 data-lab/orders.json(訂單資訊)。畫面不另存副本,存檔後畫面會自動更新。
+// LINE 推播中心(U3 主戰場之二)。
+// 三種訊息、三種顏色:訂單資訊(藍)/庫存警示(琥珀)/營運異常(紅)。
+// 資料來源:訂單資訊與庫存警示優先吃 /api/orders 的即時資料(訂單看板同一份),
+//          營運異常維持讀 data-lab/report.json(ReAct 修錯練習用它)。
 // 這裡沒有任何 LINE token。「推播 LINE Flex」按鈕呼叫的是本機後端 /api/send-line-flex,
-// token 與收件對象都留在 line-lab/.env(伺服端),真正打 api.line.me 的是後端,不是這個網頁。
+// 前端只送 template(+orderId)與 reviewed;token 與收件對象都留在 line-lab/.env(伺服端)。
 import { useState } from 'react';
 import reportJson from '../../data-lab/report.json';
 import ordersJson from '../../data-lab/orders.json';
@@ -11,13 +13,15 @@ import {
   formatMoney,
   buildFlexPayload,
   buildOrderFlexPayload,
+  FLEX_THEMES,
   REAL_SEND_COMMAND,
 } from './reportContract.js';
 
-// 兩個推播範本:同一套「載入 → 檢查 → 預覽 → 人審 → 推播」流程,能推不同訊息。
+// 三個推播範本 = 三種訊息類型。同一套「載入 → 檢查 → 預覽 → 人審 → 推播」流程。
 const TEMPLATES = {
-  anomaly: { key: 'anomaly', label: '營運異常', dataFile: 'data-lab/report.json' },
-  order: { key: 'order', label: '訂單資訊', dataFile: 'data-lab/orders.json' },
+  order: { key: 'order', label: '訂單資訊', tone: 'order', dataFile: '即時看板 /api/orders(沒開店時用 data-lab/orders.json)' },
+  inventory: { key: 'inventory', label: '庫存警示', tone: 'inventory', dataFile: '/api/orders 的即時庫存' },
+  anomaly: { key: 'anomaly', label: '營運異常', tone: 'anomaly', dataFile: 'data-lab/report.json' },
 };
 
 // 風險等級小徽章。遇到合約外的值(例如「嚴重」)會顯示灰色的「未知等級」。
@@ -79,12 +83,20 @@ function FlexNode({ node }) {
 }
 
 function FlexBubblePreview({ message }) {
-  const body = message.contents.body;
+  const bubble = message.contents;
+  const headerColor = bubble.styles?.header?.backgroundColor;
   return (
     <div className="flex-bubble" aria-label="LINE Flex 視覺預覽">
       <div className="flex-bubble-alt">altText:{message.altText}</div>
+      {bubble.header && (
+        <div className="flex-bubble-header" style={{ background: headerColor }}>
+          {bubble.header.contents.map((node, i) => (
+            <div key={i} className="flex-text bold lg" style={{ color: node.color || '#ffffff' }}>{node.text}</div>
+          ))}
+        </div>
+      )}
       <div className="flex-bubble-body">
-        {body.contents.map((node, i) => (
+        {bubble.body.contents.map((node, i) => (
           <FlexNode key={i} node={node} />
         ))}
       </div>
@@ -92,7 +104,7 @@ function FlexBubblePreview({ message }) {
   );
 }
 
-// 推播資料摘要。營運異常範本才顯示,讓學生看懂資料如何進入 Flex 前的人工審核。
+// 推播資料摘要(report 型範本用):讓學生看懂資料如何進入 Flex 前的人工審核。
 function PushReadiness({ report }) {
   return (
     <div className="dash-ready" aria-label="推播資料摘要">
@@ -106,7 +118,7 @@ function PushReadiness({ report }) {
       </div>
       <div>
         <span>下一步</span>
-        <strong>在推播中心人工審核後,按「推播 LINE Flex」送出</strong>
+        <strong>人工審核後,按「推播 LINE Flex」送出</strong>
       </div>
     </div>
   );
@@ -115,9 +127,9 @@ function PushReadiness({ report }) {
 // reviewer 檢查清單:送出前,人要親自看過的事。
 function ReviewerChecklist() {
   const items = [
-    '畫面上的數字與資料檔一致(report.json / orders.json)',
+    '畫面上的數字與資料來源一致(即時看板 / report.json / orders.json)',
     '這則通知的內容、對象、語氣都適合送出',
-    'Flex Message 的 altText、標題與內容都看得懂',
+    'Flex Message 的顏色與類型相符:訂單=藍、庫存=琥珀、異常=紅',
     '收件對象正確(真送前要確認 line-lab/.env 的 LINE_TARGET_ID)',
     '已完成人工審核,才按「推播 LINE Flex」',
     '沒有 LINE OA 時,看到 [mock] 也算過關',
@@ -167,7 +179,7 @@ function PushResult({ result }) {
     );
   }
   if (result.status === 'contract_error') {
-    return <BlockerBanner errors={result.errors} dataFile="資料檔" />;
+    return <BlockerBanner errors={result.errors} dataFile="資料來源" />;
   }
   return (
     <div className="dash-error">
@@ -178,7 +190,7 @@ function PushResult({ result }) {
 }
 
 export default function Dashboard() {
-  const [template, setTemplate] = useState('anomaly');
+  const [template, setTemplate] = useState('order');
   const [loaded, setLoaded] = useState(false);
   const [checked, setChecked] = useState(false);
   const [showPayload, setShowPayload] = useState(false);
@@ -187,13 +199,38 @@ export default function Dashboard() {
   const [pushing, setPushing] = useState(false);
   const [pushResult, setPushResult] = useState(null);
 
+  // 即時資料:載入那一刻從 /api/orders 拍下來的快照(載入後不再自己變,方便一步一步驗收)。
+  const [liveOrders, setLiveOrders] = useState(null); // null = 用靜態範例
+  const [liveReport, setLiveReport] = useState(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [loadNote, setLoadNote] = useState(null);
+
   const isOrder = template === 'order';
+  const isInventory = template === 'inventory';
   const tpl = TEMPLATES[template];
-  const activeData = isOrder ? ordersJson : reportJson;
-  // 驗證每次重新算(不是按鈕時存下來的):改壞資料檔存檔,擋牌會立刻出現。
-  const validation = isOrder ? validateOrder(ordersJson) : validateReport(reportJson);
+
+  const selectedLiveOrder =
+    liveOrders?.find((order) => order.order_id === selectedOrderId) ?? null;
+
+  // 決定目前這個範本的「作用中資料」與合約檢查(每次 render 重新算:改壞資料檔,擋牌會立刻出現)。
+  let activeData;
+  let validation;
+  if (isOrder) {
+    activeData = selectedLiveOrder ?? ordersJson;
+    validation = validateOrder(activeData);
+  } else if (isInventory) {
+    activeData = liveReport;
+    validation = liveReport ? validateReport(liveReport) : { ok: false, errors: [] };
+  } else {
+    activeData = reportJson;
+    validation = validateReport(reportJson);
+  }
   const contractOk = validation.ok;
-  const activePayload = isOrder ? buildOrderFlexPayload(activeData) : buildFlexPayload(activeData);
+  const activePayload = contractOk
+    ? isOrder
+      ? buildOrderFlexPayload(activeData)
+      : buildFlexPayload(activeData)
+    : null;
 
   const canCheck = loaded;
   const canPreview = loaded && checked && contractOk;
@@ -207,6 +244,10 @@ export default function Dashboard() {
     setReviewed(false);
     setShowJson(false);
     setPushResult(null);
+    setLiveOrders(null);
+    setLiveReport(null);
+    setSelectedOrderId(null);
+    setLoadNote(null);
   }
 
   function switchTemplate(next) {
@@ -215,14 +256,68 @@ export default function Dashboard() {
     resetFlow();
   }
 
+  // Button 1:載入資料。訂單/庫存範本先問 /api/orders;拿不到就退回靜態範例並說明原因。
+  async function loadData() {
+    if (template === 'anomaly') {
+      setLoaded(true);
+      return;
+    }
+    try {
+      const res = await fetch('/api/orders');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const snap = await res.json();
+      if (isOrder) {
+        const candidates = snap.orders.map((order) => ({
+          order_id: order.id,
+          customer: order.customer,
+          channel: order.channel,
+          status: order.status,
+          amount: order.amount,
+          items: order.items,
+        }));
+        const lineWaiting = candidates.filter((o) => o.channel === 'LINE OA' && o.status !== '已取餐');
+        if (candidates.length === 0) {
+          setLiveOrders(null);
+          setLoadNote('看板目前沒有訂單(還沒開始營業?),先用 data-lab/orders.json 靜態範例。');
+        } else {
+          setLiveOrders(candidates);
+          const preferred = lineWaiting.at(-1) ?? candidates.at(-1);
+          setSelectedOrderId(preferred.order_id);
+          setLoadNote(
+            lineWaiting.length > 0
+              ? `已自動選最新一筆 LINE OA 未取餐訂單(共 ${lineWaiting.length} 筆待處理)。`
+              : '看板上目前沒有 LINE OA 未取餐訂單,先選了最新一筆。'
+          );
+        }
+      } else {
+        setLiveReport(snap.inventoryReport);
+        setLoadNote('這份報告由伺服端依「現在的庫存」即時組成,欄位跟 report.json 同一份合約。');
+      }
+      setLoaded(true);
+    } catch {
+      if (isOrder) {
+        setLiveOrders(null);
+        setLoadNote('連不到 /api/orders(不是 npm run dev?),退回 data-lab/orders.json 靜態範例。');
+        setLoaded(true);
+      } else {
+        setLoadNote('連不到 /api/orders:庫存警示需要 dev 後端。請在 npm run dev 下使用,或先用另外兩個範本。');
+      }
+    }
+  }
+
   async function pushFlex() {
     setPushing(true);
     setPushResult(null);
+    // 前端只送 template / orderId / reviewed;資料本體由伺服端權威提供。
+    const body =
+      isOrder && selectedLiveOrder
+        ? { template: 'live-order', orderId: selectedLiveOrder.order_id, reviewed: true }
+        : { template, reviewed: true };
     try {
       const res = await fetch('/api/send-line-flex', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ template, reviewed: true }),
+        body: JSON.stringify(body),
       });
       setPushResult(await res.json());
     } catch (error) {
@@ -238,8 +333,8 @@ export default function Dashboard() {
         <p className="eyebrow">U3 · 營運通知推播中心</p>
         <h2>營運 Dashboard · 推播中心</h2>
         <p className="dash-sub">
-          「推播 LINE Flex」按鈕會呼叫本機後端 /api/send-line-flex;token 與收件對象留在 line-lab/.env(伺服端),
-          永遠不進前端。真正打 api.line.me 的是後端,不是這個網頁。
+          三種訊息、三種顏色:訂單=藍、庫存=琥珀、異常=紅。「推播 LINE Flex」按鈕會呼叫本機後端
+          /api/send-line-flex;token 與收件對象留在 line-lab/.env(伺服端),永遠不進前端。
         </p>
         <button className="dash-reset" type="button" onClick={resetFlow}>
           重設流程
@@ -247,7 +342,7 @@ export default function Dashboard() {
       </header>
 
       <div className="dash-tpl" role="tablist" aria-label="推播範本">
-        <span className="dash-tpl-label">推播範本</span>
+        <span className="dash-tpl-label">訊息類型</span>
         {Object.values(TEMPLATES).map((t) => (
           <button
             key={t.key}
@@ -257,47 +352,73 @@ export default function Dashboard() {
             className={`dash-tpl-btn ${template === t.key ? 'active' : ''}`}
             onClick={() => switchTemplate(t.key)}
           >
+            <span className="tpl-dot" style={{ background: FLEX_THEMES[t.tone].color }} />
             {t.label}
           </button>
         ))}
       </div>
 
-      <StepCard n={1} title={`載入範例資料（${tpl.dataFile}）`} done={loaded}>
+      <StepCard n={1} title={`載入資料(${tpl.dataFile})`} done={loaded}>
         {!loaded ? (
-          <button className="dash-btn" type="button" onClick={() => setLoaded(true)}>
-            載入範例資料
-          </button>
-        ) : isOrder ? (
-          <div className="dash-summary">
-            <div className="dash-kv"><span>訂單編號</span><strong>{String(ordersJson.order_id ?? '(缺少)')}</strong></div>
-            <div className="dash-kv"><span>客戶</span><strong>{String(ordersJson.customer ?? '(缺少)')}</strong></div>
-            <div className="dash-kv"><span>通路</span><strong>{String(ordersJson.channel ?? '(缺少)')}</strong></div>
-            <div className="dash-kv"><span>狀態</span><strong>{String(ordersJson.status ?? '(缺少)')}</strong></div>
-            <div className="dash-kv"><span>金額</span><strong>{typeof ordersJson.amount === 'number' ? formatMoney(ordersJson.amount) : String(ordersJson.amount)}</strong></div>
-            {Array.isArray(ordersJson.items) && (
-              <ol className="dash-actions">
-                {ordersJson.items.map((it) => (
-                  <li key={it.name}>{it.name} ×{it.qty}　{formatMoney(it.price)}</li>
-                ))}
-              </ol>
-            )}
-          </div>
+          <>
+            <button className="dash-btn" type="button" onClick={loadData}>
+              載入資料
+            </button>
+            {loadNote && <p className="dash-caption">{loadNote}</p>}
+          </>
         ) : (
           <div className="dash-summary">
-            <div className="dash-kv"><span>報表日期</span><strong>{String(reportJson.report_date ?? '(未提供)')}</strong></div>
-            <div className="dash-kv"><span>風險等級</span><RiskBadge level={reportJson.risk_level} /></div>
-            <div className="dash-kv"><span>總營收</span><strong>{typeof reportJson.total_revenue === 'number' ? formatMoney(reportJson.total_revenue) : String(reportJson.total_revenue)}</strong></div>
-            <div className="dash-kv"><span>異常筆數</span><strong>{String(reportJson.anomaly_count ?? '(缺少)')}</strong></div>
-            <div className="dash-kv"><span>Top product</span><strong>{String(reportJson.top_product ?? '(缺少)')}</strong></div>
-            <div className="dash-kv"><span>Top channel</span><strong>{String(reportJson.top_channel ?? '(缺少)')}</strong></div>
-            {Array.isArray(reportJson.action_items) && (
-              <ol className="dash-actions">
-                {reportJson.action_items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ol>
+            {loadNote && <p className="dash-caption dash-loadnote">{loadNote}</p>}
+            {isOrder ? (
+              <>
+                {liveOrders && (
+                  <label className="dash-pick">
+                    <span>看板訂單</span>
+                    <select
+                      value={selectedOrderId ?? ''}
+                      onChange={(event) => setSelectedOrderId(event.target.value)}
+                    >
+                      {liveOrders.map((order) => (
+                        <option value={order.order_id} key={order.order_id}>
+                          {order.order_id}｜{order.customer}｜{order.channel}｜{order.status}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
+                <div className="dash-kv"><span>訂單編號</span><strong>{String(activeData.order_id ?? '(缺少)')}</strong></div>
+                <div className="dash-kv"><span>客戶</span><strong>{String(activeData.customer ?? '(缺少)')}</strong></div>
+                <div className="dash-kv"><span>通路</span><strong>{String(activeData.channel ?? '(缺少)')}</strong></div>
+                <div className="dash-kv"><span>狀態</span><strong>{String(activeData.status ?? '(缺少)')}</strong></div>
+                <div className="dash-kv"><span>金額</span><strong>{typeof activeData.amount === 'number' ? formatMoney(activeData.amount) : String(activeData.amount)}</strong></div>
+                {Array.isArray(activeData.items) && (
+                  <ol className="dash-actions">
+                    {activeData.items.map((it) => (
+                      <li key={it.name}>{it.name} ×{it.qty}　{formatMoney(it.price)}</li>
+                    ))}
+                  </ol>
+                )}
+              </>
+            ) : (
+              activeData && (
+                <>
+                  <div className="dash-kv"><span>報表日期</span><strong>{String(activeData.report_date ?? '(未提供)')}</strong></div>
+                  <div className="dash-kv"><span>風險等級</span><RiskBadge level={activeData.risk_level} /></div>
+                  <div className="dash-kv"><span>{isInventory ? '已收營業額' : '總營收'}</span><strong>{typeof activeData.total_revenue === 'number' ? formatMoney(activeData.total_revenue) : String(activeData.total_revenue)}</strong></div>
+                  <div className="dash-kv"><span>異常筆數</span><strong>{String(activeData.anomaly_count ?? '(缺少)')}</strong></div>
+                  <div className="dash-kv"><span>Top product</span><strong>{String(activeData.top_product ?? '(缺少)')}</strong></div>
+                  <div className="dash-kv"><span>Top channel</span><strong>{String(activeData.top_channel ?? '(缺少)')}</strong></div>
+                  {Array.isArray(activeData.action_items) && (
+                    <ol className="dash-actions">
+                      {activeData.action_items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ol>
+                  )}
+                  <PushReadiness report={activeData} />
+                </>
+              )
             )}
-            <PushReadiness report={reportJson} />
           </div>
         )}
       </StepCard>
@@ -324,7 +445,7 @@ export default function Dashboard() {
         ) : (
           <div className="dash-preview">
             <div className="dash-preview-head">
-              <p className="dash-caption">送出前先看語氣、數字與內容是否合理。這是 LINE 上大概長怎樣。</p>
+              <p className="dash-caption">送出前先看顏色、語氣、數字是否合理。這是 LINE 上大概長怎樣。</p>
               <button className="dash-copy" type="button" onClick={() => setShowJson((v) => !v)}>
                 {showJson ? '看視覺預覽' : '看 JSON'}
               </button>
@@ -351,13 +472,13 @@ export default function Dashboard() {
           />
           我已人工審核這則通知內容
         </label>
-        <p className="dash-caption">AI / 系統做出來不算完成;你看過、勾了,才輪到推播按鈕亮起來。</p>
+        <p className="dash-caption">系統只會「建議」推播;你看過、勾了,推播按鈕才會亮起來。</p>
       </StepCard>
 
-      <StepCard n={5} title="推播中心：按一顆按鈕送出 Flex" done={pushResult?.status === 'sent'} disabled={!canReview}>
+      <StepCard n={5} title="推播中心:按一顆按鈕送出 Flex" done={pushResult?.status === 'sent'} disabled={!canReview}>
         <div className="dash-push">
           <button className="dash-btn dash-push-btn" type="button" disabled={!canPush || pushing} onClick={pushFlex}>
-            {pushing ? '推播中…' : `推播 LINE Flex（${tpl.label}）`}
+            {pushing ? '推播中…' : `推播 LINE Flex(${tpl.label})`}
           </button>
           {!canPush && <p className="dash-caption">先完成上面 1–4 步(含勾選人工審核),按鈕才會亮。</p>}
           {pushResult && <PushResult result={pushResult} />}
