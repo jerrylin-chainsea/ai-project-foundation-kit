@@ -2,21 +2,21 @@
 
 這份資料夾就是你四堂課的練習材料。整門課只做一個作品：
 
-> <br>
-> 從接手 repo、Git 工作流、AI coding agent 規劃與驗收，到倉儲後台、訂單可視化、LINE OA Flex、MCP/skills 與技術 blog。
+> **BOBA TIDE 手搖飲備料控制台**<br>
+> 從接手 repo、Git 工作流、AI coding agent 規劃與驗收，到備料控制台、訂單可視化、LINE OA Flex、MCP/skills 與技術 blog。
 
 ## 你現在在哪條流水線
 
 ```text
 接手 repo → Git / branch / commit → AGENTS.md / CLAUDE.md
-      → Plan Mode → 倉儲後台改功能 → 訂單可視化
+      → Plan Mode → 備料控制台改功能 → 訂單可視化
       → API / LINE Flex mock → ops agent → MCP 驗收 → Astro 技術紀錄
 ```
 
 | 堂 | 你會推進到哪裡 | 打開哪個資料夾 |
 |---|---|---|
 | U1 | 從 zip 建本機 repo，專案跑起來，看懂 VS Code / Git / Codex / Claude Code，並推上 GitHub | [`U1/`](./U1/) |
-| U2 | 用 AGENTS.md、CLAUDE.md、Plan Mode 管住 AI，完成倉儲後台小範圍修改 | [`U2/`](./U2/) |
+| U2 | 用 AGENTS.md、CLAUDE.md、Plan Mode 管住 AI，完成備料控制台小範圍修改 | [`U2/`](./U2/) |
 | U3 | 看懂訂單資料如何驅動畫面，並用 LINE OA Flex 完成 mock 推播 | [`U3/`](./U3/) |
 | U4 | ops agent、GitHub Actions、MCP/skills，最後整理成 Astro 技術紀錄 | [`U4/`](./U4/) |
 
@@ -53,12 +53,12 @@ npm run dev
 
 你應該看到四個頁面：
 
-1. **品牌入口**：首頁與 three.js 倉儲場景。
-2. **倉儲後台**：C2 會修改的後台管理系統。
+1. **品牌入口**：BOBA TIDE 首頁。
+2. **備料控制台**：C2 會修改的後台管理系統。
 3. **訂單可視化**：C3 會用來理解 component、CSS、資料狀態與 three.js 動畫。
 4. **LINE 推播中心**：C3 會走完載入、檢查、Flex 預覽、人工審核、mock 推播。
 
-U4 還會使用 [`blog-lab/`](./blog-lab/)：把前面的倉儲系統、API 邊界、MCP 驗收與截圖整理成 Astro 技術紀錄，最後部署到 GitHub Pages。
+U4 還會使用 [`blog-lab/`](./blog-lab/)：把前面的備料控制台、API 邊界、MCP 驗收與截圖整理成 Astro 技術紀錄，最後部署到 GitHub Pages。
 
 Blog 等價指令：
 
